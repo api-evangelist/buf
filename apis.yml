@@ -1,0 +1,36 @@
+aid: buf
+name: Buf
+description: >-
+  Buf is a modern toolchain for Protocol Buffers and gRPC, providing linting, breaking change detection, and code generation for schema-driven APIs.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - SDKs
+  - Code Generation
+url: >-
+  https://raw.githubusercontent.com/api-evangelist/buf/refs/heads/main/apis.yml
+created: '2026-03-25'
+modified: '2026-03-25'
+specificationVersion: '0.19'
+apis:
+  - aid: buf:buf
+    name: Buf
+    description: >-
+      Buf is a modern toolchain for Protocol Buffers and gRPC, providing linting, breaking change detection, and code generation for schema-driven APIs.
+    humanURL: https://buf.build
+    tags:
+      - SDKs
+      - Code Generation
+    properties:
+      - type: Documentation
+        url: https://buf.build/docs
+common:
+  - type: Website
+    url: https://buf.build
+  - type: Documentation
+    url: https://buf.build/docs
+  - type: GitHub Organization
+    url: https://github.com/bufbuild
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
