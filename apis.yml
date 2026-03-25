@@ -1,12 +1,17 @@
 aid: buf
 name: Buf
 description: >-
-  Buf is a modern toolchain for Protocol Buffers and gRPC, providing linting, breaking change detection, and code generation for schema-driven APIs.
+  Buf is a modern toolchain for Protocol Buffers and gRPC, providing linting,
+  breaking change detection, code generation, and a schema registry (BSR) for
+  managing Protobuf schemas. It replaces traditional protoc-based workflows
+  with a faster, more reliable developer experience.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - SDKs
   - Code Generation
+  - Protocol Buffers
+  - gRPC
 url: >-
   https://raw.githubusercontent.com/api-evangelist/buf/refs/heads/main/apis.yml
 created: '2026-03-25'
@@ -16,14 +21,21 @@ apis:
   - aid: buf:buf
     name: Buf
     description: >-
-      Buf is a modern toolchain for Protocol Buffers and gRPC, providing linting, breaking change detection, and code generation for schema-driven APIs.
+      Buf provides a modern toolchain for Protocol Buffers and gRPC with
+      linting, breaking change detection, code generation, and the Buf
+      Schema Registry for managing Protobuf schemas.
     humanURL: https://buf.build
     tags:
       - SDKs
       - Code Generation
+      - Protocol Buffers
     properties:
       - type: Documentation
         url: https://buf.build/docs
+      - type: Getting Started
+        url: https://buf.build/docs/tutorials/getting-started-with-buf-cli
+      - type: GitHub Repository
+        url: https://github.com/bufbuild/buf
 common:
   - type: Website
     url: https://buf.build
@@ -31,6 +43,12 @@ common:
     url: https://buf.build/docs
   - type: GitHub Organization
     url: https://github.com/bufbuild
+  - type: Blog
+    url: https://buf.build/blog
+  - type: Pricing
+    url: https://buf.build/pricing
+  - type: Schema Registry
+    url: https://buf.build/registry
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
