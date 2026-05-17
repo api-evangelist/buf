@@ -40,7 +40,7 @@ apis:
     properties:
       - type: Documentation
         url: https://buf.build/docs/bsr/
-      - type: Getting Started
+      - type: GettingStarted
         url: https://buf.build/docs/bsr/introduction/
       - type: Authentication
         url: https://buf.build/docs/bsr/authentication/
@@ -62,7 +62,7 @@ apis:
     properties:
       - type: Documentation
         url: https://buf.build/docs/cli/
-      - type: Getting Started
+      - type: GettingStarted
         url: https://buf.build/docs/tutorials/getting-started-with-buf-cli
       - type: GitHubRepository
         url: https://github.com/bufbuild/buf
@@ -81,7 +81,7 @@ apis:
     properties:
       - type: Documentation
         url: https://buf.build/docs/bufstream/
-      - type: Getting Started
+      - type: GettingStarted
         url: https://buf.build/docs/bufstream/introduction/
 common:
   - type: Website
