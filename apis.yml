@@ -96,6 +96,9 @@ common:
     url: https://github.com/bufbuild/buf
   - type: Blog
     url: https://buf.build/blog
+  - url: https://buf.build/blog/rss.xml
+    type: BlogRSS
+    description: Discovered RSS/Atom feed for https://buf.build/blog
   - type: Pricing
     url: https://buf.build/pricing
   - type: SignUp

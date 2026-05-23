@@ -1,14 +1,6 @@
 {
   "repo": "buf",
-  "feeds": [
-    {
-      "source": "https://buf.build/blog",
-      "feed_url": "",
-      "title": "",
-      "saved": 0,
-      "error": "no_feed"
-    }
-  ],
+  "feeds": [],
   "fetched": "2026-05-17T20:48:52Z",
   "post_count": 0
 }
