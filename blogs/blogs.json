@@ -1,6 +1,21 @@
 {
   "repo": "buf",
-  "feeds": [],
-  "fetched": "2026-05-17T20:48:52Z",
+  "feeds": [
+    {
+      "source": "https://github.com/bufbuild/buf",
+      "feed_url": "https://github.com/bufbuild/buf",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
+      "source": "https://buf.build/blog/rss.xml",
+      "feed_url": "https://buf.build/blog/rss.xml",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    }
+  ],
+  "fetched": "2026-06-01T23:35:02Z",
   "post_count": 0
 }
