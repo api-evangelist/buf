@@ -9,7 +9,7 @@ description: >-
   streaming platform built on Protobuf. Used by enterprises including EA, Intel,
   IBM, OpenAI, and Okta.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/buf/refs/heads/main/apis.yml
 created: '2026-03-25'
 modified: '2026-04-21'
