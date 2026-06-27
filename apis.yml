@@ -101,7 +101,7 @@ common:
     description: Discovered RSS/Atom feed for https://buf.build/blog
   - type: Pricing
     url: https://buf.build/pricing
-  - type: SignUp
+  - type: Signup
     url: https://buf.build/signup
   - type: Login
     url: https://buf.build/login
