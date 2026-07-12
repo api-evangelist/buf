@@ -84,6 +84,8 @@ apis:
       - type: GettingStarted
         url: https://buf.build/docs/bufstream/introduction/
 common:
+  - type: DomainSecurity
+    url: security/buf-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/bufbuild
   - type: Website
