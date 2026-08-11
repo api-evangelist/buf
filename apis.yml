@@ -96,6 +96,13 @@ apis:
       - type: GettingStarted
         url: https://buf.build/docs/bufstream/introduction/
 common:
+  - type: IssueTracker
+    url: https://github.com/bufbuild/buf/issues
+  - type: Releases
+    url: https://github.com/bufbuild/buf/releases
+  - type: License
+    name: Apache-2.0
+    url: https://github.com/bufbuild/buf/blob/main/LICENSE
   - type: DomainSecurity
     url: security/buf-domain-security.yml
   - type: LinkedIn
