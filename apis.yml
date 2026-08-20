@@ -30,6 +30,15 @@ tags:
   - Code Generation
   - gRPC
   - Kafka
+  - Open-Source
+  - Protocol Buffers
+  - Schema Registry
+  - SDK
+  - Streaming
+tags_raw:
+  - Code Generation
+  - gRPC
+  - Kafka
   - Open Source
   - Protocol Buffers
   - Schema Registry
@@ -45,6 +54,11 @@ apis:
       generation, and a Reflection API for runtime schema discovery.
     humanURL: https://buf.build/product/bsr
     tags:
+      - Code Generation
+      - Protocol Buffers
+      - Schema Registry
+      - SDK
+    tags_raw:
       - Code Generation
       - Protocol Buffers
       - Schema Registry
