@@ -1,0 +1,128 @@
+generated: '2026-09-13'
+method: searched
+source: https://github.com/bufbuild/buf/releases
+docs:
+- https://github.com/bufbuild/buf/releases
+- https://github.com/bufbuild/buf/blob/main/CHANGELOG.md
+scheme: semver
+subject: Buf CLI (the changelog Buf publishes on a date-stamped cadence)
+current_version: v1.73.0
+current_version_date: '2026-09-11'
+cadence: Minor releases roughly monthly, patch releases in between.
+breaking_change_policy: 'The Buf CLI follows semver within 1.x. The BSR API it talks to is versioned separately
+  by Protobuf package: v1 packages are stable and will not break, v1beta1/alpha may. registry-proto enforces
+  this in CI with buf breaking WIRE_JSON.'
+other_changelogs:
+- name: BSR on-prem release notes
+  url: https://buf.build/docs/bsr/admin/on-prem/release-notes/
+- name: Buf blog
+  url: https://buf.build/blog
+note: Buf publishes no product changelog page for the hosted BSR itself; the dated, structured changelog
+  it does publish is the Buf CLI release stream on GitHub, which is also what gates access to new BSR
+  features. Entries below are the ten most recent releases, classified by the leading verb of each bullet.
+window:
+  from: '2026-04-14'
+  to: '2026-09-11'
+  entries: 10
+entries:
+- version: v1.73.0
+  date: '2026-09-11'
+  breaking: false
+  additions:
+  - Update built-in Well-Known Types to Protobuf v35.1.
+  fixes:
+  - Fix `buf format` dropping comments next to commas or semicolons in message literals.
+  - Fix compilation failing to resolve symbols re-exported through `import public` when the
+  - Fix LSP go to definition not resolving across files inside dependency and well-known-type
+  - Fix LSP finding only a subset of references to symbols declared in
+  - Fix `buf format` non-idempotent trailing comment formatting.
+  - Fix managed mode setting `java_multiple_files` on Edition 2024 files, which is not
+  url: https://github.com/bufbuild/buf/releases/tag/v1.73.0
+- version: v1.72.0
+  date: '2026-07-17'
+  breaking: false
+  additions: []
+  fixes:
+  - Fix `buf beta registry webhook create` and `buf beta registry webhook list` to emit proto JSON output.
+  - Fix HTTPS Basic authentication for remote inputs to use `BUF_INPUT_HTTPS_USERNAME` for the username.
+  - Fix `IMPORT_USED` lint rule silently reporting no unused imports when `google/protobuf/descriptor.proto`
+    is in the transitive dependency graph.
+  url: https://github.com/bufbuild/buf/releases/tag/v1.72.0
+- version: v1.71.0
+  date: '2026-06-16'
+  breaking: false
+  additions:
+  - Port new formatter and fix bugs for in-line block comment spacing.
+  fixes:
+  - Fix handling for an empty rpc input/output.
+  url: https://github.com/bufbuild/buf/releases/tag/v1.71.0
+- version: v1.70.0
+  date: '2026-05-25'
+  breaking: false
+  additions:
+  - Add LSP completion for `buf.gen.yaml`, `buf.yaml`, and `buf.policy.yaml` files.
+  - Add error for when a dependency is added to `buf.yaml` and is missing from `buf.lock`.
+  - Update the `PROTOVALIDATE` lint rule support checking `NaN` in `const`, `in`, `not_in`, `gt`, `gte`,
+    `lt` and `lte` rules for `float` and `double` fields.
+  - Update the `PROTOVALIDATE` lint rule support to check `(buf.validate.message).oneof` rules and make
+    sure they are well-formed and valid.
+  fixes:
+  - Fix LSP `textDocument/documentSymbol` marking every symbol as deprecated.
+  url: https://github.com/bufbuild/buf/releases/tag/v1.70.0
+- version: v1.69.0
+  date: '2026-04-29'
+  breaking: false
+  additions:
+  - Increase check plugin WASM memory limits to 1GiB.
+  - 'Add LSP code lenses for `buf.gen.yaml` files: "Run buf generate" and "Check for plugin updates".'
+  - Add LSP warnings for `lint.ignore` and `breaking.ignore` paths in `buf.yaml` that do not match any
+    file in the workspace.
+  fixes:
+  - Fix LSP stale diagnostics persisting after a file is closed or deleted.
+  - Fix handling of unprefixed newlines in block comments.
+  url: https://github.com/bufbuild/buf/releases/tag/v1.69.0
+- version: v1.68.4
+  date: '2026-04-22'
+  breaking: false
+  additions: []
+  fixes:
+  - Fix duplicated extension tags across imports from compiler.
+  url: https://github.com/bufbuild/buf/releases/tag/v1.68.4
+- version: v1.68.3
+  date: '2026-04-20'
+  breaking: false
+  additions: []
+  fixes:
+  - Fix `buf format` error handling for edition 2024.
+  url: https://github.com/bufbuild/buf/releases/tag/v1.68.3
+- version: v1.68.2
+  date: '2026-04-17'
+  breaking: false
+  additions:
+  - Add `--debug-address` flag to `buf lsp serve` to provide debug and profile support.
+  fixes:
+  - Fix build failures for modules with a vendored `descriptor.proto`.
+  - Fix LSP incorrectly reporting "edition '2024' not yet fully supported" errors.
+  - Fix CEL compilation error messages in `buf lint` to use the structured error API instead of parsing
+    cel-go's text output.
+  url: https://github.com/bufbuild/buf/releases/tag/v1.68.2
+- version: v1.68.1
+  date: '2026-04-14'
+  breaking: false
+  additions: []
+  fixes:
+  - Fix absolute imports (leading-dot) marked unused in diagnostics.
+  url: https://github.com/bufbuild/buf/releases/tag/v1.68.1
+- version: v1.68.0
+  date: '2026-04-14'
+  breaking: false
+  additions:
+  - Add LSP document links for `buf.yaml` deps, `buf.gen.yaml` remote plugins and input modules, `buf.policy.yaml`
+    name and BSR plugins, and `buf.lock` dep names, making each a clickable link to its BSR page.
+  - Add LSP code lenses for `buf.yaml` files to update all dependencies (`buf.dep.updateAll`) or check
+    for available updates (`buf.dep.checkUpdates`).
+  - Add `buf curl` URL path shell completions (service and method names) via
+  - Add support for Edition 2024 syntax to `buf format`.
+  fixes:
+  - Fix `buf generate --clean` deleting files from nested plugin output directories.
+  url: https://github.com/bufbuild/buf/releases/tag/v1.68.0

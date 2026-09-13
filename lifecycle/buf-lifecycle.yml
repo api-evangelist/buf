@@ -1,0 +1,89 @@
+generated: '2026-09-13'
+method: searched
+source: https://github.com/bufbuild/registry-proto + https://buf.build/pricing + https://www.bufstatus.com/
+docs:
+  - https://github.com/bufbuild/registry-proto
+  - https://buf.build/pricing
+  - https://buf.build/docs/bsr/commits-labels/
+versioning:
+  scheme: package-versioned Protobuf (v1 / v1beta1 / alpha)
+  current:
+    registry_api: buf.registry.*.v1 (stable) with v1beta1 for plugin and policy services
+    reflect_api: buf.reflect.v1beta1 (beta)
+    cli: 1.73.0 (2026-09-11)
+  policy: >-
+    v1 packages are stable and will not change in backward-incompatible ways; alpha and
+    beta packages may. Buf runs its own `buf breaking` WIRE_JSON check against registry-proto
+    in CI, so the stability promise is machine-enforced rather than only written down.
+  source: https://github.com/bufbuild/registry-proto
+deprecation:
+  policy_published: true
+  mechanism:
+    - name: module deprecation
+      description: >-
+        A BSR module can be marked deprecated and later un-deprecated; the deprecated state
+        is carried on the Module resource in the contract.
+      operations: ['buf registry module deprecate', 'buf registry module undeprecate']
+      docs: https://buf.build/docs/reference/cli/buf/registry/module/deprecate/
+    - name: schema-level deprecation
+      description: >-
+        Field, message, enum and RPC deprecation is expressed with the Protobuf `deprecated`
+        option and surfaced in generated documentation and the LSP.
+    - name: label archiving
+      description: 'ArchiveLabels / UnarchiveLabels retire a label without deleting history.'
+  sunset_header: not published
+  deprecation_header: not published
+  rfc8594: false
+  alpha_surface_warning: >-
+    Buf explicitly labels the webhook surface (buf.alpha.webhook.v1alpha1,
+    buf.alpha.registry.v1alpha1 and the `buf beta registry webhook` commands) as alpha and
+    says to "expect them to change".
+sla:
+  published: true
+  source: https://buf.build/pricing
+  uptime:
+    - plan: Community
+      uptime_sla: none
+    - plan: Teams
+      uptime_sla: none
+    - plan: Pro
+      uptime_sla: '99%'
+    - plan: Enterprise
+      uptime_sla: '99.5%'
+  support_response:
+    - plan: Community
+      target: community Slack channel only
+    - plan: Teams
+      target: email support within 48 business hours
+    - plan: Pro
+      target: email support within 48 business hours
+    - plan: Enterprise
+      target: 48 business hours plus dedicated Slack channel and a named Customer Engineer
+  maintenance_windows: 'Custom maintenance windows are an Enterprise-tier commitment.'
+  data_retention: 'Custom data retention policies are an Enterprise-tier commitment.'
+status_page:
+  url: https://status.buf.build
+  resolves_to: https://www.bufstatus.com/
+  api: https://www.bufstatus.com/api/v2/status.json
+  feed: https://www.bufstatus.com/history.atom
+  probed:
+    - url: https://www.bufstatus.com/api/v2/status.json
+      status: 200
+      body_summary: 'status.description "All Systems Operational", indicator "none"'
+  method: probed
+release_cadence:
+  cli: 'Roughly monthly minor releases with patch releases in between; see changelog/buf-changelog.yml.'
+  changelog: https://github.com/bufbuild/buf/releases
+product_changes:
+  - date: '2026-05-08'
+    event: >-
+      Bufstream, Buf's Kafka-compatible streaming platform, was ACQUIRED BY COREWEAVE and
+      is no longer a Buf product. Buf states it "will continue to operate independently,
+      focused on the Buf Schema Registry (BSR), Protobuf tooling, and its broader
+      schema-driven development mission."
+    evidence: https://buf.build/blog/coreweave-acquires-bufstream
+    catalog_effect: >-
+      buf.build/docs/bufstream/ now 200s with a meta-refresh stub redirecting to that blog
+      post, and buf.build/product/bufstream returns a 439-byte redirect stub. The bufstream
+      API entry was removed from apis.yml in this pass.
+    method: searched

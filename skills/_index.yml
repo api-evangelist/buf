@@ -1,0 +1,39 @@
+generated: '2026-09-13'
+method: searched
+source: https://github.com/bufbuild/claude-plugins (Apache-2.0, fetched 2026-09-13)
+description: >-
+  Packaged Agent Skills for Buf. One is published by Buf itself; one is written by
+  API Evangelist from the provider's own Protobuf contract and documentation.
+skills:
+  - file: buf-protobuf.md
+    name: protobuf
+    method: searched
+    official: true
+    source: https://github.com/bufbuild/claude-plugins/blob/main/plugins/protobuf/skills/protobuf/SKILL.md
+    author: Buf Technologies, Inc. <support@buf.build>
+    license: Apache-2.0
+    marketplace: https://github.com/bufbuild/claude-plugins
+    note: >-
+      Saved VERBATIM from Buf's official Claude Code plugin marketplace. Buf ships it as
+      the `protobuf` skill inside the `protobuf` plugin, together with a bundled
+      `buf lsp serve` LSP server and nine reference documents (best practices,
+      protovalidate, buf toolchain, migration, troubleshooting, review checklist).
+      Only the SKILL.md is mirrored here; the references and assets stay upstream.
+    summary: >-
+      Proto design, buf CLI usage, gRPC/Connect service definition, protovalidate
+      constraints, schema evolution, and lint/breaking-change troubleshooting.
+  - file: buf-bsr-api.md
+    name: buf-bsr-api
+    method: generated
+    official: false
+    source: >-
+      grpc/buf/registry/**/*.proto (verbatim upstream contract) +
+      https://buf.build/docs/bsr/apis/api-access/ + https://buf.build/docs/bsr/rate-limits/
+    note: >-
+      Written by API Evangelist. Every RPC named in it was read out of the .proto files in
+      grpc/; no method name is invented. The reversal table and the idempotency claim are
+      derived from `option idempotency_level` declarations in the same contract.
+    summary: >-
+      How an agent calls the BSR over Connect/gRPC: URL shape, bearer auth, resolving a
+      module reference, paging, fetching descriptors, atomic batch writes and their
+      reversals, and Connect error handling.

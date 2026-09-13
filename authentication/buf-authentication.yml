@@ -1,0 +1,78 @@
+generated: '2026-09-13'
+method: searched
+source: https://buf.build/docs/bsr/authentication/
+docs:
+  - https://buf.build/docs/bsr/authentication/
+  - https://buf.build/docs/bsr/apis/api-access/
+  - https://buf.build/docs/bsr/apis/mcp/
+derived_from:
+  - well-known/buf-oauth-authorization-server.json
+  - well-known/buf-oauth-protected-resource-mcp.json
+summary: >-
+  The Buf Schema Registry authenticates API calls with a user-scoped bearer token. There is
+  no API-key header, no HMAC signing, and no mTLS. A second, separate OAuth2 authorization
+  server exists purely to issue those same tokens to MCP clients.
+schemes:
+  - id: bsr_bearer_token
+    type: http
+    scheme: bearer
+    in: header
+    header: Authorization
+    format: 'Bearer <BUF_TOKEN>'
+    applies_to: >-
+      Every BSR RPC over Connect, gRPC and gRPC-Web, on buf.build and on private
+      instances. Also accepted by the MCP server for headless/CI use.
+    issuance:
+      - '`buf registry login` opens a browser flow, prompts for an expiration, and writes the token to $HOME/.netrc (%HOME%/_netrc on Windows).'
+      - 'Created by hand in account settings (Create New Token → pick expiration → add a note).'
+    expiry: user-chosen at creation time
+    revocation: 'Delete the token by name in account settings; revocation is immediate.'
+    env_var: BUF_TOKEN
+    multi_host: >-
+      BUF_TOKEN accepts a comma-separated list of <token>@<hostname> entries so one machine
+      can hold credentials for the public BSR and a private instance at once; the CLI
+      matches the remote hostname to the right token.
+    precedence:
+      - BUF_TOKEN environment variable
+      - $HOME/.netrc
+    anonymous_access: >-
+      Public modules on the public BSR are readable without credentials. Private instances
+      typically require authentication for every call regardless of repository visibility.
+    bot_identity: >-
+      Bot users are a private-instance feature only; they are not offered on the public
+      buf.build. Instance admins create them so headless tokens survive staff changes.
+  - id: bsr_mcp_oauth2
+    type: oauth2
+    flow: authorization_code
+    pkce: required (S256)
+    issuer: https://buf.build
+    authorization_endpoint: https://buf.build/oauth2/authorize
+    token_endpoint: https://buf.build/oauth2/token
+    registration_endpoint: https://buf.build/oauth2/register
+    dynamic_client_registration: true
+    client_authentication: none (public clients)
+    grant_types: [authorization_code, refresh_token]
+    scopes: [mcp]
+    applies_to: https://buf.build/mcp
+    resource_metadata: https://buf.build/.well-known/oauth-protected-resource/mcp
+    challenge_observed: >-
+      Anonymous POST to the MCP endpoint returns 401 with
+      WWW-Authenticate: Bearer resource_metadata="https://buf.build/.well-known/oauth-protected-resource/mcp", scope="mcp"
+    note: >-
+      The token the flow mints is an ordinary BSR API token and appears in account settings
+      under the client's consent-screen name, which is also how it is revoked.
+  - id: end_user_sso
+    type: openIdConnect
+    issuer: https://login.buf.build/
+    discovery: https://login.buf.build/.well-known/openid-configuration
+    applies_to: 'Human sign-in to buf.build (/login, /signup) — not an API credential.'
+    enterprise: >-
+      Pro and Enterprise instances support custom SSO with SAML and OIDC, plus SCIM for
+      server admin and bulk user management.
+ci:
+  pattern: 'Store the token in the CI secret store and expose it as BUF_TOKEN; the Buf CLI reads it on every command.'
+  netrc_fallback: 'echo "${BUF_TOKEN}" | buf registry login --token-stdin'
+  documented_providers: [GitHub Actions, Travis CI, CircleCI]
+gaps:
+  - 'No per-token scoping on BSR API tokens: a token carries the full access of the user or bot user it belongs to, including writes. The only scope in the system is "mcp", and it gates the MCP transport, not the operations behind it.'
+  - 'No OpenID Connect discovery document on the API host itself; api.buf.build/.well-known/openid-configuration is a 404.'

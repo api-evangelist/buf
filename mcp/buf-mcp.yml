@@ -1,21 +1,66 @@
-generated: '2026-09-11'
+generated: '2026-09-13'
 method: probed
-source: https://api.buf.build/mcp
-status: gated
+source: https://buf.build/docs/bsr/apis/mcp/
+status: live-auth-gated
 server:
-  name: buf
+  name: bsr
+  vendor: Buf Technologies, Inc.
   transport: http
-  url: https://api.buf.build/mcp
+  url: https://buf.build/mcp
+  private_instance_url: https://<your-bsr-instance>/mcp
+  description: >-
+    The Buf Schema Registry exposes its public v1 Registry API as MCP tools so an agent
+    can find a module, fetch its schema, and inspect commits and labels without a
+    generated client. Buf's own docs state the token an approved client receives "has the
+    same access as the user who approved it, so any RPC you can call from the web UI or
+    the Buf CLI is callable through MCP, including writes."
 deployment:
   mode: remote
-  endpoint: https://api.buf.build/mcp
+  endpoint: https://buf.build/mcp
+  auth: oauth
   verified: probed
-  probe: gated
-  checked: '2026-09-11'
-  source: docs-check 2026-09-12 (endpoint found in the provider's own documentation, then probed)
-  probe_why: RFC 9728 challenge on the MCP path only
-tools_note: No tool list captured. This manifest records a PROBED, reachable endpoint only; anonymous
-  tools/list was auth-gated or the server requires an initialize handshake this reachability probe does
-  not perform. Run signals/audit_mcp_authorship.py --probe to enumerate tools and settle platform-vs-provider
-  authorship. Do NOT derive a tool list from the OpenAPI and store it here -- that is a candidate manifest,
-  and it belongs under an X-MCPServerCandidate pointer.
+  checked: '2026-09-13'
+  probe:
+    - url: https://buf.build/mcp
+      method: 'POST tools/list (jsonrpc 2.0, anonymous)'
+      status: 401
+      body: 'no bearer token'
+    - url: https://api.buf.build/mcp
+      method: 'POST tools/list (jsonrpc 2.0, anonymous)'
+      status: 401
+      www_authenticate: >-
+        Bearer resource_metadata="https://buf.build/.well-known/oauth-protected-resource/mcp",
+        scope="mcp"
+  note: >-
+    A prior round recorded the endpoint as https://api.buf.build/mcp. Both hosts answer
+    the MCP path, but https://buf.build/mcp is the URL Buf documents, and it is also the
+    `resource` value in the provider's own RFC 9728 protected-resource document, so it is
+    recorded here as canonical.
+authentication:
+  interactive: >-
+    Browser OAuth2 with dynamic client registration (RFC 7591) and PKCE S256. First
+    connection opens a consent page; the client caches the issued API token.
+  headless: >-
+    Pre-existing BSR API token passed as `Authorization: Bearer <BUF_TOKEN>`. Documented
+    for bots and CI, because the OAuth2 flow requires browser consent.
+  scope: mcp
+  authorization_server: https://buf.build
+  protected_resource_metadata: https://buf.build/.well-known/oauth-protected-resource/mcp
+  revocation: >-
+    Each authorized client appears as a named API token in account settings; deleting the
+    token revokes the client immediately.
+clients_documented:
+  - name: Claude Code
+    install: claude mcp add --transport http bsr https://buf.build/mcp
+  - name: Codex
+    install: codex mcp add bsr --url https://buf.build/mcp
+  - name: OpenCode
+    install: 'opencode.json mcp entry {"type":"remote","url":"https://buf.build/mcp"} then opencode mcp auth bsr'
+tools_note: >-
+  No live tool list captured: anonymous tools/list returns 401 on both hosts, so the real
+  inputSchemas require an authenticated introspection run. Buf documents the exposed
+  surface as "the BSR Registry API, with the v1 services for modules, owners, commits, and
+  labels as MCP tools" and points at the Registry API documentation for the method list.
+  The named-but-unschema'd tool surface is mapped against the real .proto RPCs in
+  mcp/buf-tool-crosswalk.yml; nothing there is presented as a captured tool definition.
+backing_contract: grpc/buf-grpc-index.yml

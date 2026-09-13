@@ -1,0 +1,284 @@
+generated: '2026-09-13'
+method: derived
+source: mcp/buf-mcp.yml + grpc/buf-grpc-index.yml + https://buf.build/docs/bsr/apis/mcp/
+note: 'Buf''s MCP server is a projection of the SAME Connect/gRPC contract in grpc/, not a separate product
+  surface, and the backing contract is Protobuf rather than OpenAPI — so the `rest` column carries fully-qualified
+  RPC method paths, which is what a client actually POSTs to. Tool NAMES are null on every row because
+  the live tools/list is auth-gated (401) and Buf publishes no tool manifest; inventing tool names here
+  would be fabrication. What IS established: which RPCs the provider says are behind the server.'
+surfaces:
+  protobuf:
+    path: grpc/buf-grpc-index.yml
+    gated: false
+    note: Public, Apache-2.0, 33 services / 85 RPCs across v1, v1beta1 and reflect v1beta1.
+  mcp:
+    url: https://buf.build/mcp
+    gated: true
+    note: OAuth2 (scope mcp) or bearer BUF_TOKEN; anonymous tools/list returns 401.
+  openapi:
+    present: false
+    note: Buf publishes no OpenAPI. The contract is Protobuf; every probe for /openapi.json, /swagger.json
+      and /api-docs on buf.build and api.buf.build missed (SPA shell or 404).
+  graphql:
+    present: false
+coverage:
+  documented_tool_services:
+  - buf.registry.module.v1.*
+  - buf.registry.owner.v1.*
+  - buf.registry.module.v1.CommitService
+  - buf.registry.module.v1.LabelService
+  mapped_rpcs: 30
+  tool_names_captured: 0
+  confidence: medium — service-level mapping from the provider statement, not a captured manifest
+crosswalk:
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.CommitService/GetCommits
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.CommitService/ListCommits
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.DownloadService/Download
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.FileDescriptorSetService/GetFileDescriptorSet
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.GraphService/GetGraph
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/write
+  rest:
+  - buf.registry.module.v1.LabelService/ArchiveLabels
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/write
+  rest:
+  - buf.registry.module.v1.LabelService/CreateOrUpdateLabels
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.LabelService/GetLabels
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.LabelService/ListLabelHistory
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.LabelService/ListLabels
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/write
+  rest:
+  - buf.registry.module.v1.LabelService/UnarchiveLabels
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/write
+  rest:
+  - buf.registry.module.v1.ModuleService/CreateModules
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/write
+  rest:
+  - buf.registry.module.v1.ModuleService/DeleteModules
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.ModuleService/GetModules
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.ModuleService/ListModules
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/write
+  rest:
+  - buf.registry.module.v1.ModuleService/UpdateModules
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/read
+  rest:
+  - buf.registry.module.v1.ResourceService/GetResources
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: module/write
+  rest:
+  - buf.registry.module.v1.UploadService/Upload
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/write
+  rest:
+  - buf.registry.owner.v1.OrganizationService/CreateOrganizations
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/write
+  rest:
+  - buf.registry.owner.v1.OrganizationService/DeleteOrganizations
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/read
+  rest:
+  - buf.registry.owner.v1.OrganizationService/GetOrganizations
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/read
+  rest:
+  - buf.registry.owner.v1.OrganizationService/ListOrganizations
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/write
+  rest:
+  - buf.registry.owner.v1.OrganizationService/UpdateOrganizations
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/read
+  rest:
+  - buf.registry.owner.v1.OwnerService/GetOwners
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/write
+  rest:
+  - buf.registry.owner.v1.UserService/CreateUsers
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/write
+  rest:
+  - buf.registry.owner.v1.UserService/DeleteUsers
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/read
+  rest:
+  - buf.registry.owner.v1.UserService/GetCurrentUser
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/read
+  rest:
+  - buf.registry.owner.v1.UserService/GetUsers
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/read
+  rest:
+  - buf.registry.owner.v1.UserService/ListUsers
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+- tool: null
+  category: owner/write
+  rest:
+  - buf.registry.owner.v1.UserService/UpdateUsers
+  binding: rpc
+  confidence: medium
+  note: Tool name not captured — anonymous tools/list is 401. Bound by the documented statement that the
+    v1 services for modules, owners, commits and labels are exposed as tools.
+mcp_only: []
+rest_only:
+- operation: buf.reflect.v1beta1.FileDescriptorSetService/GetFileDescriptorSet
+  reason: reflect is a separate beta module; the MCP doc names only the v1 Registry API services.
+- operation: buf.registry.plugin.v1beta1.* (16 RPCs)
+  reason: v1beta1 plugin services — not part of the "v1 services for modules, owners, commits, and labels"
+    the MCP doc names.
+- operation: buf.registry.policy.v1beta1.* (17 RPCs)
+  reason: v1beta1 policy services — same reason.
+- operation: buf.registry.module.v1beta1.* (16 RPCs)
+  reason: superseded beta copies of the v1 module services.

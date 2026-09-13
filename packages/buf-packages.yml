@@ -1,0 +1,205 @@
+generated: '2026-09-13'
+method: searched
+source: >-
+  registry metadata endpoints queried 2026-09-13 — registry.npmjs.org, pypi.org/pypi/*/json,
+  proxy.golang.org, search.maven.org, crates.io/api/v1, formulae.brew.sh
+docs:
+  - https://buf.build/docs/bsr/generated-sdks/
+  - https://github.com/bufbuild
+summary: >-
+  Two distinct classes of package sit under the Buf name and they should not be conflated.
+  (1) First-party OSS libraries and tools Buf publishes to the public registries — the CLI,
+  the Protobuf runtimes, Protovalidate. (2) GENERATED SDKs the Buf Schema Registry produces
+  on demand from any module, served from Buf's own registry endpoints (buf.build/gen/go,
+  buf.build/gen/npm, buf.build/gen/maven, ...). The generated SDKs for
+  buf.build/bufbuild/registry are the closest thing Buf ships to a client library for its
+  own API, and they are listed separately below.
+packages:
+  - name: '@bufbuild/buf'
+    registry: npm
+    url: https://www.npmjs.com/package/@bufbuild/buf
+    language: JavaScript
+    kind: cli
+    official: true
+    version: 1.73.0
+    published: '2026-09-11'
+    description: The buf CLI, distributed as an npm package.
+  - name: '@bufbuild/protobuf'
+    registry: npm
+    url: https://www.npmjs.com/package/@bufbuild/protobuf
+    language: TypeScript
+    kind: runtime
+    official: true
+    version: 2.15.0
+    published: '2026-09-11'
+    repository: https://github.com/bufbuild/protobuf-es
+    description: Protobuf-ES — Protocol Buffers for ECMAScript, fully conformance-tested.
+  - name: '@bufbuild/protoc-gen-es'
+    registry: npm
+    url: https://www.npmjs.com/package/@bufbuild/protoc-gen-es
+    language: TypeScript
+    kind: codegen-plugin
+    official: true
+    version: 2.15.0
+    published: '2026-09-11'
+  - name: '@bufbuild/protoplugin'
+    registry: npm
+    url: https://www.npmjs.com/package/@bufbuild/protoplugin
+    language: TypeScript
+    kind: library
+    official: true
+    version: 2.15.0
+    published: '2026-09-11'
+  - name: '@bufbuild/protovalidate'
+    registry: npm
+    url: https://www.npmjs.com/package/@bufbuild/protovalidate
+    language: TypeScript
+    kind: library
+    official: true
+    version: 1.2.0
+    published: '2026-04-22'
+    repository: https://github.com/bufbuild/protovalidate-es
+  - name: protovalidate
+    registry: pypi
+    url: https://pypi.org/project/protovalidate/
+    language: Python
+    kind: library
+    official: true
+    version: 2.0.0
+    published: '2026-08-19'
+    repository: https://github.com/bufbuild/protovalidate-py
+  - name: protobuf-py
+    registry: pypi
+    url: https://pypi.org/project/protobuf-py/
+    language: Python
+    kind: runtime
+    official: true
+    version: 0.4.0
+    published: '2026-09-02'
+    repository: https://github.com/bufbuild/protobuf-py
+    description: Idiomatic Protocol Buffers for Python.
+  - name: github.com/bufbuild/buf
+    registry: go
+    url: https://pkg.go.dev/github.com/bufbuild/buf
+    language: Go
+    kind: cli
+    official: true
+    version: v1.73.0
+    published: '2026-09-11'
+  - name: github.com/bufbuild/protovalidate-go
+    registry: go
+    url: https://pkg.go.dev/github.com/bufbuild/protovalidate-go
+    language: Go
+    kind: library
+    official: true
+    version: v1.4.0
+    published: '2026-08-31'
+  - name: build.buf:protovalidate
+    registry: maven
+    url: https://central.sonatype.com/artifact/build.buf/protovalidate
+    language: Java
+    kind: library
+    official: true
+    version: 0.7.0
+    published: '2025-05-01'
+    repository: https://github.com/bufbuild/protovalidate-java
+  - name: build.buf:buf
+    registry: maven
+    url: https://central.sonatype.com/artifact/build.buf/buf
+    language: Java
+    kind: cli
+    official: true
+    version: 1.53.0
+    published: '2025-04-21'
+    note: >-
+      The Maven distribution of the CLI is stale: 1.53.0, published 2025-04-21, against
+      1.73.0 published 2026-09-11 on npm, Go and Homebrew. Java consumers pulling the CLI
+      from Maven Central are 20 minor versions and roughly 17 months behind.
+  - name: build.buf:buf-gradle-plugin
+    registry: maven
+    url: https://central.sonatype.com/artifact/build.buf/buf-gradle-plugin
+    language: Kotlin
+    kind: build-plugin
+    official: true
+    version: 0.10.0
+    published: '2024-09-05'
+    repository: https://github.com/bufbuild/buf-gradle-plugin
+  - name: buf
+    registry: homebrew
+    url: https://formulae.brew.sh/formula/buf
+    language: Go
+    kind: cli
+    official: true
+    version: 1.73.0
+    published: null
+    note: >-
+      formulae.brew.sh reports stable 1.73.0 in homebrew/core; the formula JSON carries no
+      publish date field, so `published` is null rather than guessed. Buf also runs its own
+      tap, bufbuild/homebrew-buf.
+  - name: protovalidate
+    registry: crates
+    url: https://crates.io/crates/protovalidate
+    language: Rust
+    kind: library
+    official: false
+    version: 0.0.0
+    published: '2026-08-14'
+    note: >-
+      A reserved 0.0.0 placeholder with no repository field in its crates.io metadata, so
+      first-party ownership could NOT be confirmed from the registry. Buf has not shipped a
+      Rust Protovalidate release; treated as unofficial until the crate carries a bufbuild
+      repository link.
+generated_sdks:
+  description: >-
+    SDKs the BSR generates from a module on demand. These are how a consumer gets a typed
+    client for Buf's OWN API. Go is served through the Go module proxy protocol; the other
+    languages are served from BSR-hosted registry endpoints rather than the public
+    registries, so most have no public metadata endpoint to query.
+  docs: https://buf.build/docs/bsr/generated-sdks/
+  packages:
+    - name: buf.build/gen/go/bufbuild/registry/protocolbuffers/go
+      registry: go
+      language: Go
+      kind: generated-sdk
+      official: true
+      version: v1.36.12-20260831211851-b4432e12a6e7.2
+      published: '2026-09-03'
+      note: Message types for the public BSR API. Version string encodes plugin version + module commit.
+    - name: buf.build/gen/go/bufbuild/registry/connectrpc/go
+      registry: go
+      language: Go
+      kind: generated-sdk
+      official: true
+      version: v1.21.0-20260831211851-b4432e12a6e7.1
+      published: '2026-09-08'
+      note: Connect client for the public BSR API.
+    - name: '@buf/bufbuild_registry.<plugin>'
+      registry: bsr-npm
+      registry_url: https://buf.build/gen/npm/v1
+      language: TypeScript
+      kind: generated-sdk
+      official: true
+      version: null
+      published: null
+      note: >-
+        Checked and absent from the PUBLIC npm registry — registry.npmjs.org returns
+        "Not found" for @buf/bufbuild_registry.* — because @buf packages are served from
+        Buf's own npm endpoint, which requires an .npmrc pointing at buf.build/gen/npm/v1.
+        No unauthenticated metadata endpoint exists, so version and date are recorded null.
+    - name: 'Maven / Cargo / NuGet / Swift / CMake generated SDKs'
+      registry: bsr
+      language: multiple
+      kind: generated-sdk
+      official: true
+      version: null
+      published: null
+      note: >-
+        The BSR serves each language from its own hosted registry surface. Versions are
+        per-commit and generated on demand, so there is no single "latest version" to read.
+currency_finding: >-
+  The JavaScript, Python and Go lines are current — five packages released within two days
+  of this pass and nothing core older than five months. The JVM line is not. Every
+  build.buf Maven artifact predates 2026: the CLI at 1.53.0 (2025-04-21) against 1.73.0
+  elsewhere, protovalidate at 0.7.0 (2025-05-01) while the Go and Python Protovalidate
+  lines have reached 1.4.0 and 2.0.0, and the Gradle plugin at 0.10.0 (2024-09-05). A Java
+  or Kotlin consumer is the only one on this list being served a materially older Buf.

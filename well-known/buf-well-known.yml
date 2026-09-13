@@ -1,0 +1,113 @@
+generated: '2026-09-13'
+method: probed
+source: live GET probes of every host this record knows, 2026-09-13
+note: >-
+  buf.build answers 200 with the same 6,242-byte single-page-app shell for ANY unmatched
+  path, so every text/html 200 below is a soft-404, not a document. Only the two
+  application/json responses are real documents. api.buf.build answers a plain-text 404
+  for unmatched paths, which makes its results unambiguous.
+hosts:
+  - host: buf.build
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        file: buf-oauth-authorization-server.json
+      - path: /.well-known/oauth-protected-resource/mcp
+        status: 200
+        content_type: application/json
+        file: buf-oauth-protected-resource-mcp.json
+      - path: /.well-known/security.txt
+        status: 200
+        content_type: text/html
+        result: soft-404 (SPA shell)
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: text/html
+        result: soft-404 (SPA shell)
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: text/html
+        result: soft-404 (SPA shell)
+      - path: /.well-known/api-catalog
+        status: 200
+        content_type: text/html
+        result: soft-404 (SPA shell)
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        content_type: text/html
+        result: soft-404 (SPA shell)
+      - path: /.well-known/agent-card.json
+        status: 200
+        content_type: text/html
+        result: soft-404 (SPA shell)
+      - path: /.well-known/agent.json
+        status: 200
+        content_type: text/html
+        result: soft-404 (SPA shell)
+      - path: /llms.txt
+        status: 200
+        content_type: text/html
+        result: soft-404 (SPA shell)
+  - host: api.buf.build
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        file: buf-oauth-authorization-server.json
+        note: byte-identical to the buf.build copy
+      - path: /.well-known/oauth-protected-resource/mcp
+        status: 200
+        content_type: application/json
+        file: buf-oauth-protected-resource-mcp.json
+        note: byte-identical to the buf.build copy
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+  - host: www.buf.build
+    documents:
+      - path: /.well-known/security.txt
+        status: 301
+        note: redirects to buf.build; no separate document set
+  - host: docs.buf.build
+    documents:
+      - path: /.well-known/security.txt
+        status: 301
+        note: redirects to buf.build/docs; no separate document set
+  - host: login.buf.build
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        content_type: application/json
+        file: buf-login-openid-configuration.json
+        note: >-
+          The end-user sign-in identity provider behind buf.build/login and /signup
+          (Auth0 tenant). Distinct from the API authorization server above, which is
+          the one an MCP client uses.
+findings:
+  security_txt: absent
+  api_catalog: absent
+  agent_card: absent
+  openid_configuration: present on login.buf.build only
+  oauth_authorization_server: >-
+    present. RFC 8414 metadata for the BSR's own authorization server: issuer
+    https://buf.build, PKCE S256 required, dynamic client registration (RFC 7591) at
+    /oauth2/register, public clients (token_endpoint_auth_methods_supported: none),
+    one scope — "mcp".
+  oauth_protected_resource: >-
+    present at the RFC 9728 sub-path for the MCP resource. Names resource
+    https://buf.build/mcp and authorization server https://buf.build. This is the
+    document api.buf.build/mcp points at in its 401 WWW-Authenticate challenge.

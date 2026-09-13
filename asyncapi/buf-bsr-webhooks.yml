@@ -1,0 +1,54 @@
+generated: '2026-09-13'
+method: searched
+source: https://buf.build/docs/bsr/admin/instance/webhooks/
+docs: https://buf.build/docs/bsr/admin/instance/webhooks/
+asyncapi_spec_published: false
+asyncapi_note: >-
+  Buf publishes no AsyncAPI document, and an AsyncAPI would misdescribe this surface anyway:
+  delivery is a Protobuf RPC call to a Connect endpoint you implement, not a message on a
+  broker or a JSON webhook POST. The event contract is the buf.alpha.webhook.v1alpha1
+  Protobuf package, which is the machine-readable definition here. Nothing was generated.
+maturity: alpha
+availability:
+  public_bsr: false
+  private_instance: 'Yes, but disabled by default — contact Support or your Buf representative to enable.'
+  on_prem: 'Enabled by default; batch size and interval configurable.'
+  note: 'This feature is NOT available on the public buf.build. It is a private-instance capability.'
+delivery:
+  style: Connect RPC callback
+  transport: HTTPS
+  callback_path_suffix: /buf.alpha.webhook.v1alpha1.EventService/Event
+  content_type: application/proto
+  request_message: buf.alpha.webhook.v1alpha1.EventRequest
+  response_message: buf.alpha.webhook.v1alpha1.EventResponse
+  batching: 'Up to 20 events every 5 seconds by default.'
+  guarantees: at-most-once
+  signed: false
+  retried: false
+  reconciliation: >-
+    Buf explicitly says delivery is best-effort — events are neither signed nor retried — and
+    tells consumers to reconcile from the BSR if they need stronger guarantees.
+subscriptions:
+  scope: one repository
+  cardinality: 'One webhook per repository event, so a repository has at most one subscription.'
+  permission: Admin role on the repository
+  cli:
+    create: >-
+      buf beta registry webhook create --owner=<org> --repository=<repo>
+      --callback-url=https://your.callback.url/buf.alpha.webhook.v1alpha1.EventService/Event
+      --event=WEBHOOK_EVENT_REPOSITORY_PUSH
+    list: buf beta registry webhook list
+    delete: buf beta registry webhook delete
+events:
+  - name: WEBHOOK_EVENT_REPOSITORY_PUSH
+    trigger: a successful buf push
+    payload: EventRequest.payload.repository_push
+    note: 'The only supported event.'
+event_count: 1
+use_cases:
+  - Trigger downstream CI/CD on a successful buf push.
+  - Notify a Slack channel or issue tracker when modules change.
+  - Tag a Git repository in response to a BSR commit.
+stability_warning: >-
+  Buf labels buf.alpha.webhook.v1alpha1, buf.alpha.registry.v1alpha1 and the
+  `buf beta registry webhook` commands as alpha and says to expect them to change.

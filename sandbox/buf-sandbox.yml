@@ -1,0 +1,60 @@
+generated: '2026-09-13'
+method: searched
+source: https://buf.build/docs/bsr/studio/
+docs:
+  - https://buf.build/docs/bsr/studio/
+  - https://buf.build/docs/bsr/apis/api-access/
+  - https://buf.build/docs/curl/usage/
+summary: >-
+  Buf ships no test-mode keys, no sandbox host and no fixture data — there is nothing to
+  fake, because the registry's read surface is public. What it ships instead is a real
+  console: Buf Studio, a browser client that calls live gRPC/Connect/gRPC-Web APIs using
+  schemas published to the BSR, plus `buf curl` for the same thing from a terminal.
+console:
+  name: Buf Studio
+  url: https://buf.build/studio
+  url_source: >-
+    Linked as https://buf.build/studio from Buf's own Studio documentation page. Probed
+    2026-09-13: 200, but the response is the buf.build single-page-app shell, which the site
+    also returns for unmatched paths — the app route is real per the docs, but a crawler
+    cannot confirm it from the response body alone.
+  docs: https://buf.build/docs/bsr/studio/
+  availability: 'Any BSR user. Private instances additionally get admin-only Agent presets.'
+  capabilities:
+    - 'Fuzzy method picker across BSR modules, services and methods.'
+    - 'Schema-driven JSON request editor with autocomplete (Ctrl+Space), inline type validation and hover docs from the .proto comments.'
+    - 'Headers tab for authorization and metadata.'
+    - 'Unary RPC only — streaming endpoints are greyed out in the picker.'
+  transport:
+    direct_browser:
+      description: 'Studio calls the target URL with fetch() straight from the browser.'
+      requires: 'Server speaks Connect or gRPC-Web and returns Access-Control-Allow-Origin: https://buf.build'
+    studio_agent:
+      description: 'A small proxy you run for plain gRPC servers or servers that cannot satisfy browser CORS.'
+      command: buf beta studio-agent
+  privacy_note: 'Buf states Studio does not proxy through Buf servers in either mode.'
+terminal_client:
+  command: buf curl
+  docs: https://buf.build/docs/curl/usage/
+  note: 'Calls live gRPC, gRPC-Web and Connect APIs from the CLI using a schema from the BSR or a local descriptor set.'
+test_credentials:
+  provided: false
+  note: >-
+    No test-mode tokens, no key prefixes distinguishing test from live, no test clocks, no
+    fixtures. There is one live BSR and one kind of token.
+free_read_path:
+  description: >-
+    The nearest thing to a sandbox is that public modules on the public BSR are readable
+    without credentials, so an agent can exercise the real read surface with no account.
+  example_module: buf.build/connectrpc/eliza
+  example_call: >-
+    The module Buf uses in its own documentation examples for
+    FileDescriptorSetService/GetFileDescriptorSet.
+  caveat: >-
+    Buf's documented curl example still passes a Bearer token; only public-module reads are
+    anonymous, and the code-generation bucket drops to 10 requests/hour unauthenticated.
+free_tier:
+  plan: Community
+  cost: '0.00'
+  includes: 'One private repository, unlimited public repositories, community Slack support.'
+  trial: '30-day trial on Teams and Pro.'

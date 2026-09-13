@@ -1,0 +1,411 @@
+generated: '2026-09-13'
+method: searched
+source: https://github.com/bufbuild/registry-proto (Apache-2.0, ref main) and https://github.com/bufbuild/reflect-proto
+  (Apache-2.0, ref main), both fetched 2026-09-13
+format: proto3
+transport:
+- Connect
+- gRPC
+- gRPC-Web
+license: Apache-2.0
+bsr_modules:
+- buf.build/bufbuild/registry
+- buf.build/bufbuild/reflect
+base_url: https://buf.build
+call_shape: https://<bsr-host>/<fully.qualified.ServiceName>/<MethodName>
+ownership: Served by buf.build and published in the bufbuild GitHub organization; registry-proto/buf.yaml
+  declares the module name buf.build/bufbuild/registry and its README calls it "the public API for the
+  Buf Schema Registry (BSR)".
+note: Copied verbatim from the upstream repositories, preserving the buf/ import root so proto import
+  paths resolve with -I grpc. Nothing in this directory was authored or modified by API Evangelist.
+summary:
+  files: 64
+  services: 33
+  rpcs: 85
+  messages: 222
+  idempotency_levels:
+    NO_SIDE_EFFECTS: 51
+    IDEMPOTENT: 30
+    unset: 4
+stability:
+  v1: 'stable — registry-proto README: "APIs that are v1 are stable and will not change in backward incompatible
+    ways."'
+  v1beta1: beta — may change in backward incompatible ways; unsafe to depend on in production.
+  reflect v1beta1: beta module for fetching compiled FileDescriptorSets.
+files:
+- file: buf/reflect/v1beta1/file_descriptor_set.proto
+  package: buf.reflect.v1beta1
+  messages: 2
+  services:
+  - FileDescriptorSetService
+  rpcs:
+  - GetFileDescriptorSet
+- file: buf/registry/module/v1/commit.proto
+  package: buf.registry.module.v1
+  messages: 1
+- file: buf/registry/module/v1/commit_service.proto
+  package: buf.registry.module.v1
+  messages: 4
+  services:
+  - CommitService
+  rpcs:
+  - GetCommits
+  - ListCommits
+- file: buf/registry/module/v1/digest.proto
+  package: buf.registry.module.v1
+  messages: 1
+- file: buf/registry/module/v1/download_service.proto
+  package: buf.registry.module.v1
+  messages: 2
+  services:
+  - DownloadService
+  rpcs:
+  - Download
+- file: buf/registry/module/v1/file.proto
+  package: buf.registry.module.v1
+  messages: 1
+- file: buf/registry/module/v1/file_descriptor_set_service.proto
+  package: buf.registry.module.v1
+  messages: 2
+  services:
+  - FileDescriptorSetService
+  rpcs:
+  - GetFileDescriptorSet
+- file: buf/registry/module/v1/graph.proto
+  package: buf.registry.module.v1
+  messages: 1
+- file: buf/registry/module/v1/graph_service.proto
+  package: buf.registry.module.v1
+  messages: 2
+  services:
+  - GraphService
+  rpcs:
+  - GetGraph
+- file: buf/registry/module/v1/label.proto
+  package: buf.registry.module.v1
+  messages: 4
+- file: buf/registry/module/v1/label_service.proto
+  package: buf.registry.module.v1
+  messages: 12
+  services:
+  - LabelService
+  rpcs:
+  - ArchiveLabels
+  - CreateOrUpdateLabels
+  - GetLabels
+  - ListLabelHistory
+  - ListLabels
+  - UnarchiveLabels
+- file: buf/registry/module/v1/module.proto
+  package: buf.registry.module.v1
+  messages: 2
+- file: buf/registry/module/v1/module_service.proto
+  package: buf.registry.module.v1
+  messages: 10
+  services:
+  - ModuleService
+  rpcs:
+  - CreateModules
+  - DeleteModules
+  - GetModules
+  - ListModules
+  - UpdateModules
+- file: buf/registry/module/v1/resource.proto
+  package: buf.registry.module.v1
+  messages: 2
+- file: buf/registry/module/v1/resource_service.proto
+  package: buf.registry.module.v1
+  messages: 2
+  services:
+  - ResourceService
+  rpcs:
+  - GetResources
+- file: buf/registry/module/v1/upload_service.proto
+  package: buf.registry.module.v1
+  messages: 2
+  services:
+  - UploadService
+  rpcs:
+  - Upload
+- file: buf/registry/module/v1beta1/commit.proto
+  package: buf.registry.module.v1beta1
+  messages: 1
+- file: buf/registry/module/v1beta1/commit_service.proto
+  package: buf.registry.module.v1beta1
+  messages: 4
+  services:
+  - CommitService
+  rpcs:
+  - GetCommits
+  - ListCommits
+- file: buf/registry/module/v1beta1/digest.proto
+  package: buf.registry.module.v1beta1
+  messages: 1
+- file: buf/registry/module/v1beta1/download_service.proto
+  package: buf.registry.module.v1beta1
+  messages: 2
+  services:
+  - DownloadService
+  rpcs:
+  - Download
+- file: buf/registry/module/v1beta1/file.proto
+  package: buf.registry.module.v1beta1
+  messages: 1
+- file: buf/registry/module/v1beta1/graph.proto
+  package: buf.registry.module.v1beta1
+  messages: 1
+- file: buf/registry/module/v1beta1/graph_service.proto
+  package: buf.registry.module.v1beta1
+  messages: 2
+  services:
+  - GraphService
+  rpcs:
+  - GetGraph
+- file: buf/registry/module/v1beta1/label.proto
+  package: buf.registry.module.v1beta1
+  messages: 4
+- file: buf/registry/module/v1beta1/label_service.proto
+  package: buf.registry.module.v1beta1
+  messages: 12
+  services:
+  - LabelService
+  rpcs:
+  - ArchiveLabels
+  - CreateOrUpdateLabels
+  - GetLabels
+  - ListLabelHistory
+  - ListLabels
+  - UnarchiveLabels
+- file: buf/registry/module/v1beta1/module.proto
+  package: buf.registry.module.v1beta1
+  messages: 2
+- file: buf/registry/module/v1beta1/module_service.proto
+  package: buf.registry.module.v1beta1
+  messages: 10
+  services:
+  - ModuleService
+  rpcs:
+  - CreateModules
+  - DeleteModules
+  - GetModules
+  - ListModules
+  - UpdateModules
+- file: buf/registry/module/v1beta1/resource.proto
+  package: buf.registry.module.v1beta1
+  messages: 2
+- file: buf/registry/module/v1beta1/resource_service.proto
+  package: buf.registry.module.v1beta1
+  messages: 2
+  services:
+  - ResourceService
+  rpcs:
+  - GetResources
+- file: buf/registry/module/v1beta1/upload_service.proto
+  package: buf.registry.module.v1beta1
+  messages: 2
+  services:
+  - UploadService
+  rpcs:
+  - Upload
+- file: buf/registry/owner/v1/organization.proto
+  package: buf.registry.owner.v1
+  messages: 2
+- file: buf/registry/owner/v1/organization_service.proto
+  package: buf.registry.owner.v1
+  messages: 10
+  services:
+  - OrganizationService
+  rpcs:
+  - CreateOrganizations
+  - DeleteOrganizations
+  - GetOrganizations
+  - ListOrganizations
+  - UpdateOrganizations
+- file: buf/registry/owner/v1/owner.proto
+  package: buf.registry.owner.v1
+  messages: 2
+- file: buf/registry/owner/v1/owner_service.proto
+  package: buf.registry.owner.v1
+  messages: 2
+  services:
+  - OwnerService
+  rpcs:
+  - GetOwners
+- file: buf/registry/owner/v1/user.proto
+  package: buf.registry.owner.v1
+  messages: 2
+- file: buf/registry/owner/v1/user_service.proto
+  package: buf.registry.owner.v1
+  messages: 12
+  services:
+  - UserService
+  rpcs:
+  - CreateUsers
+  - DeleteUsers
+  - GetCurrentUser
+  - GetUsers
+  - ListUsers
+  - UpdateUsers
+- file: buf/registry/plugin/v1beta1/check_service.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 4
+  services:
+  - CheckService
+  rpcs:
+  - ListCategories
+  - ListRules
+- file: buf/registry/plugin/v1beta1/collection.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 2
+- file: buf/registry/plugin/v1beta1/collection_service.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 6
+  services:
+  - CollectionService
+  rpcs:
+  - GetCollections
+  - GetPluginCollectionAssociations
+  - ListCollections
+- file: buf/registry/plugin/v1beta1/commit.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 1
+- file: buf/registry/plugin/v1beta1/commit_service.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 4
+  services:
+  - CommitService
+  rpcs:
+  - GetCommits
+  - ListCommits
+- file: buf/registry/plugin/v1beta1/compression.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 0
+- file: buf/registry/plugin/v1beta1/digest.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 1
+- file: buf/registry/plugin/v1beta1/download_service.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 2
+  services:
+  - DownloadService
+  rpcs:
+  - Download
+- file: buf/registry/plugin/v1beta1/label.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 3
+- file: buf/registry/plugin/v1beta1/label_service.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 12
+  services:
+  - LabelService
+  rpcs:
+  - ArchiveLabels
+  - CreateOrUpdateLabels
+  - GetLabels
+  - ListLabelHistory
+  - ListLabels
+  - UnarchiveLabels
+- file: buf/registry/plugin/v1beta1/plugin.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 2
+- file: buf/registry/plugin/v1beta1/plugin_service.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 10
+  services:
+  - PluginService
+  rpcs:
+  - CreatePlugins
+  - DeletePlugins
+  - GetPlugins
+  - ListPlugins
+  - UpdatePlugins
+- file: buf/registry/plugin/v1beta1/resource.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 2
+- file: buf/registry/plugin/v1beta1/resource_service.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 2
+  services:
+  - ResourceService
+  rpcs:
+  - GetResources
+- file: buf/registry/plugin/v1beta1/upload_service.proto
+  package: buf.registry.plugin.v1beta1
+  messages: 2
+  services:
+  - UploadService
+  rpcs:
+  - Upload
+- file: buf/registry/policy/v1beta1/commit.proto
+  package: buf.registry.policy.v1beta1
+  messages: 1
+- file: buf/registry/policy/v1beta1/commit_service.proto
+  package: buf.registry.policy.v1beta1
+  messages: 4
+  services:
+  - CommitService
+  rpcs:
+  - GetCommits
+  - ListCommits
+- file: buf/registry/policy/v1beta1/configuration.proto
+  package: buf.registry.policy.v1beta1
+  messages: 1
+- file: buf/registry/policy/v1beta1/digest.proto
+  package: buf.registry.policy.v1beta1
+  messages: 1
+- file: buf/registry/policy/v1beta1/download_service.proto
+  package: buf.registry.policy.v1beta1
+  messages: 2
+  services:
+  - DownloadService
+  rpcs:
+  - Download
+- file: buf/registry/policy/v1beta1/label.proto
+  package: buf.registry.policy.v1beta1
+  messages: 3
+- file: buf/registry/policy/v1beta1/label_service.proto
+  package: buf.registry.policy.v1beta1
+  messages: 12
+  services:
+  - LabelService
+  rpcs:
+  - ArchiveLabels
+  - CreateOrUpdateLabels
+  - GetLabels
+  - ListLabelHistory
+  - ListLabels
+  - UnarchiveLabels
+- file: buf/registry/policy/v1beta1/policy.proto
+  package: buf.registry.policy.v1beta1
+  messages: 2
+- file: buf/registry/policy/v1beta1/policy_service.proto
+  package: buf.registry.policy.v1beta1
+  messages: 10
+  services:
+  - PolicyService
+  rpcs:
+  - CreatePolicies
+  - DeletePolicies
+  - GetPolicies
+  - ListPolicies
+  - UpdatePolicies
+- file: buf/registry/policy/v1beta1/resource.proto
+  package: buf.registry.policy.v1beta1
+  messages: 2
+- file: buf/registry/policy/v1beta1/resource_service.proto
+  package: buf.registry.policy.v1beta1
+  messages: 2
+  services:
+  - ResourceService
+  rpcs:
+  - GetResources
+- file: buf/registry/policy/v1beta1/upload_service.proto
+  package: buf.registry.policy.v1beta1
+  messages: 2
+  services:
+  - UploadService
+  rpcs:
+  - Upload
+- file: buf/registry/priv/extension/v1beta1/extension.proto
+  package: buf.registry.priv.extension.v1beta1
+  messages: 1

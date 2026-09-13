@@ -1,0 +1,114 @@
+generated: '2026-09-13'
+method: searched
+source: https://connectrpc.com/docs/protocol/
+docs:
+  - https://connectrpc.com/docs/protocol/
+  - https://buf.build/docs/bsr/rate-limits/
+  - https://buf.build/docs/bsr/apis/api-access/
+format: connect-error
+rfc9457: false
+provenance_note: >-
+  Buf publishes no standalone error reference of its own. Its API-access doc defines the
+  BSR wire format by pointing at the Connect protocol spec ("For Connect's JSON encoding,
+  see the Connect protocol spec"), and its rate-limit doc names a Connect code directly
+  ("the Connect error code resource_exhausted"). The code table below is therefore the
+  Connect protocol's normative set, cited to connectrpc.com — a CNCF project Buf founded,
+  NOT a buf.build URL — and is recorded as the envelope the BSR inherits rather than as a
+  Buf-authored catalogue. Only the `observed_on_bsr` entries are documented by Buf itself.
+envelope:
+  shape: '{"code": "<code>", "message": "<string>", "details": [{"type": "<fq.proto.Message>", "value": "<base64>"}]}'
+  encoding: JSON for unary Connect responses
+  required_fields: [code]
+  invalid: ['{"code": null}', '{}']
+  details: >-
+    Optional array of strongly-typed Protobuf messages. Each detail carries `type` (the
+    fully-qualified Protobuf message name) and `value` (unpadded base64 binary Protobuf).
+  note: >-
+    No `type`/`title`/`instance` URI fields: this is a Connect/gRPC error envelope, not an
+    RFC 9457 problem+json document. An agent must not expect application/problem+json.
+problem_types:
+  - code: canceled
+    http: 499
+    meaning: RPC canceled, usually by the caller.
+  - code: unknown
+    http: 500
+    meaning: Catch-all for errors of unclear origin and errors without a more appropriate code.
+  - code: invalid_argument
+    http: 400
+    meaning: Request is invalid regardless of system state.
+    remediation: >-
+      On the BSR this is the common response to a request that violates a protovalidate
+      rule declared in the contract — e.g. page_size above 250, or page_token longer than
+      4096 bytes. Fix the request; retrying unchanged will fail identically.
+  - code: deadline_exceeded
+    http: 504
+    meaning: Deadline expired before the RPC completed or before the client received the response.
+  - code: not_found
+    http: 404
+    meaning: The requested resource cannot be found.
+  - code: already_exists
+    http: 409
+    meaning: Caller attempted to create a resource that already exists.
+    remediation: >-
+      Expect this from CreateModules / CreateOrganizations when the name is taken. BSR
+      creates are atomic batches, so one conflict fails the whole request.
+  - code: permission_denied
+    http: 403
+    meaning: Caller is not authorized to perform the operation.
+  - code: resource_exhausted
+    http: 429
+    meaning: A resource is exhausted — on the BSR, a rate-limit bucket.
+    observed_on_bsr: true
+    remediation: >-
+      Response carries X-RateLimit-Remaining:0 and Retry-After. Honor Retry-After; retrying
+      earlier just produces another 429. See rate-limits/buf-rate-limits.yml.
+  - code: failed_precondition
+    http: 400
+    meaning: The system is not in the state the operation requires. Client must fix state before retrying.
+  - code: aborted
+    http: 409
+    meaning: Operation aborted, often a concurrency/transaction conflict. Retry at a higher level.
+  - code: out_of_range
+    http: 400
+    meaning: Operation attempted past the valid range.
+  - code: unimplemented
+    http: 501
+    meaning: Operation is not implemented, supported, or enabled.
+  - code: internal
+    http: 500
+    meaning: An invariant expected by the underlying system was broken. Reserved for serious errors.
+  - code: unavailable
+    http: 503
+    meaning: Service is transiently unavailable. Back off and retry idempotent operations.
+  - code: data_loss
+    http: 500
+    meaning: Unrecoverable data loss or corruption.
+  - code: unauthenticated
+    http: 401
+    meaning: No valid credentials for the operation.
+    observed_on_bsr: true
+    remediation: >-
+      Probed directly: POST to https://buf.build/mcp without credentials returns 401 with
+      body "no bearer token" and a WWW-Authenticate challenge naming the protected-resource
+      metadata document and scope "mcp". Supply Authorization: Bearer <BUF_TOKEN>.
+http_status_inference:
+  note: >-
+    When a non-200 response carries no explicit Connect code, clients infer one from the
+    HTTP status using this table. Note it differs from the code→status table above: 404
+    infers `unimplemented`, and 429 infers `unavailable`, not `resource_exhausted`.
+  map:
+    '400': internal
+    '401': unauthenticated
+    '403': permission_denied
+    '404': unimplemented
+    '429': unavailable
+    '502': unavailable
+    '503': unavailable
+    '504': unavailable
+    other: unknown
+retry_guidance: >-
+  The Connect spec states there is no set of codes safe to retry for all applications and
+  that services "explicitly identify idempotent methods in their IDL". Buf does exactly
+  that: 30 of the 34 mutating BSR RPCs declare option idempotency_level = IDEMPOTENT, and
+  51 read RPCs declare NO_SIDE_EFFECTS. Use those declarations, not the error code alone,
+  to decide whether a retry is safe. See conventions/buf-conventions.yml.

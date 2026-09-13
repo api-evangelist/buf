@@ -1,0 +1,31 @@
+generated: '2026-09-13'
+method: probed
+source: https://buf.build/.well-known/oauth-authorization-server
+docs: https://buf.build/docs/bsr/apis/mcp/
+authorization_server: https://buf.build
+protected_resources:
+  - resource: https://buf.build/mcp
+    metadata: https://buf.build/.well-known/oauth-protected-resource/mcp
+    scopes_supported: [mcp]
+    bearer_methods_supported: [header]
+flows:
+  authorization_code:
+    authorization_endpoint: https://buf.build/oauth2/authorize
+    token_endpoint: https://buf.build/oauth2/token
+    pkce: S256
+    dynamic_client_registration: https://buf.build/oauth2/register
+scopes:
+  - name: mcp
+    description: >-
+      The only scope the BSR authorization server advertises. Granting it lets an MCP
+      client call the BSR Registry API as the approving user. It is NOT a read-only or
+      least-privilege scope: Buf's docs state the resulting token "has the same access as
+      the user who approved it ... including writes."
+    read_only: false
+    source: https://buf.build/.well-known/oauth-authorization-server
+scope_count: 1
+note: >-
+  Derived from the provider's own RFC 8414 and RFC 9728 discovery documents, both fetched
+  anonymously and saved verbatim under well-known/. There is no broader scope catalogue:
+  the BSR's non-MCP surface uses unscoped user API tokens, so this file describes the
+  whole of Buf's OAuth scope surface rather than a subset of it.

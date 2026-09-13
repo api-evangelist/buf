@@ -1,0 +1,138 @@
+generated: '2026-09-13'
+method: derived
+source: grpc/buf/registry/**/*.proto and grpc/buf/reflect/v1beta1/file_descriptor_set.proto
+docs: https://buf.build/docs/bsr/commits-labels/
+summary: >-
+  Derived from the Protobuf contract, not from prose. The BSR's data model is a small,
+  regular graph: an Owner (User or Organization) owns Modules; a Module accumulates
+  immutable Commits; a Label is a movable pointer at one Commit. Plugins and Policies are
+  the same shape as Modules, with their own Commits and Labels. The regularity is
+  deliberate — the plugin and policy packages are near-copies of the module package.
+identifiers:
+  scheme: TypeID-style UUID
+  validation: '(buf.validate.field).string.tuuid = true on every id field'
+  note: >-
+    Every entity carries an opaque `id` plus a human ref (owner/module[:label]). Most RPCs
+    accept either through a *Ref message, which is why an agent can pass what the user typed
+    without resolving it first.
+entities:
+  - name: Owner
+    package: buf.registry.owner.v1
+    kind: oneof wrapper
+    fields: [user, organization]
+    note: 'A polymorphic wrapper: an Owner is exactly one of a User or an Organization.'
+    relationships:
+      - has_many: Module
+        via: owner_id
+  - name: User
+    package: buf.registry.owner.v1
+    service: UserService
+    operations: [GetUsers, GetCurrentUser, ListUsers, CreateUsers, UpdateUsers, DeleteUsers]
+  - name: Organization
+    package: buf.registry.owner.v1
+    service: OrganizationService
+    operations: [GetOrganizations, ListOrganizations, CreateOrganizations, UpdateOrganizations, DeleteOrganizations]
+  - name: Module
+    package: buf.registry.module.v1
+    service: ModuleService
+    fields: [id, name, owner_id, visibility, state, description, url, default_label_name]
+    enums:
+      ModuleVisibility: [public, private]
+      ModuleState: [active, deprecated]
+    constraints: 'description max 350 chars'
+    relationships:
+      - belongs_to: Owner
+        via: owner_id
+      - has_many: Commit
+        via: module_id
+      - has_many: Label
+        via: module_id
+      - has_one: Label
+        via: default_label_name
+        note: 'Defaults to a label named "main", created with the module.'
+  - name: Commit
+    package: buf.registry.module.v1
+    service: CommitService
+    fields: [id, owner_id, module_id, digest, created_by_user_id, source_control_url]
+    immutable: true
+    relationships:
+      - belongs_to: Module
+        via: module_id
+      - belongs_to: User
+        via: created_by_user_id
+      - has_one: Digest
+        via: digest
+      - has_many: File
+        via: DownloadService/Download
+  - name: Label
+    package: buf.registry.module.v1
+    service: LabelService
+    fields: [id, name, owner_id, module_id, commit_id, updated_by_user_id, commit_check_state]
+    mutable_pointer: true
+    relationships:
+      - belongs_to: Module
+        via: module_id
+      - has_one: Commit
+        via: commit_id
+      - belongs_to: User
+        via: updated_by_user_id
+      - has_one: CommitCheckState
+        via: commit_check_state
+    note: 'ListLabelHistory walks what a label pointed at over time — the audit trail for a moving pointer.'
+  - name: Resource
+    package: buf.registry.module.v1
+    service: ResourceService
+    kind: oneof wrapper
+    fields: [module, label, commit]
+    note: >-
+      The resolver. GetResources takes a reference that may name a module, a label or a
+      commit and returns whichever it is — the single call an agent should make when it does
+      not yet know what kind of thing it was handed.
+  - name: Digest
+    package: buf.registry.module.v1
+    fields: [type, value]
+    note: 'Content address of a commit; the integrity primitive behind buf.lock pinning.'
+  - name: File
+    package: buf.registry.module.v1
+    fields: [path, content]
+    note: 'The .proto source itself, returned by DownloadService/Download.'
+  - name: Graph
+    package: buf.registry.module.v1
+    service: GraphService
+    note: 'The transitive dependency graph over commits — nodes plus edges, returned by GetGraph.'
+  - name: Plugin
+    package: buf.registry.plugin.v1beta1
+    service: PluginService
+    mirrors: Module
+    relationships:
+      - has_many: Commit
+      - has_many: Label
+      - belongs_to: Collection
+    note: 'Plugins also carry CheckService (ListRules, ListCategories) — the lint/breaking rules a check plugin contributes.'
+  - name: Collection
+    package: buf.registry.plugin.v1beta1
+    service: CollectionService
+    relationships:
+      - has_many: Plugin
+        via: GetPluginCollectionAssociations
+  - name: Policy
+    package: buf.registry.policy.v1beta1
+    service: PolicyService
+    mirrors: Module
+    fields_via: buf/registry/policy/v1beta1/configuration.proto
+    note: 'A policy is a versioned, pushable lint/breaking configuration — governance rules stored the same way schemas are.'
+  - name: FileDescriptorSet
+    package: buf.reflect.v1beta1
+    service: FileDescriptorSetService
+    note: >-
+      The compiled output: the whole module resolved into a google.protobuf.FileDescriptorSet.
+      This is the entity a runtime consumes for dynamic message handling (prototransform).
+graph_summary:
+  root: Owner
+  spine: Owner -> Module -> Commit, with Label as a movable pointer into Commit
+  parallel_trees: [Module, Plugin, Policy]
+  terminal_artifacts: [File, FileDescriptorSet, Digest]
+counts:
+  messages: 222
+  services: 33
+  rpcs: 85

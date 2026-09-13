@@ -1,13 +1,16 @@
 aid: buf
 name: Buf
 description: >-
-  Buf is a modern developer platform for Protocol Buffers and gRPC, providing
-  a CLI toolchain, schema registry, and streaming infrastructure. It replaces
-  traditional protoc-based workflows with linting, breaking change detection,
-  code generation, remote plugins, and the Buf Schema Registry (BSR) for
-  centralized schema distribution. Buf also offers Bufstream, a Kafka-compatible
-  streaming platform built on Protobuf. Used by enterprises including EA, Intel,
-  IBM, OpenAI, and Okta.
+  Buf Technologies builds the modern toolchain for Protocol Buffers and gRPC: the buf CLI,
+  the Buf Schema Registry (BSR), Protovalidate, Protobuf-ES and Protobuf-Py, and the Connect
+  protocol, which is now a CNCF project. It replaces protoc-based workflows with linting,
+  breaking-change detection, code generation, remote plugins, policy checks and centralized
+  schema distribution. Buf's own public API is published as Protobuf rather than OpenAPI —
+  33 services and 85 RPCs served over Connect, gRPC and gRPC-Web at the root of buf.build,
+  Apache-2.0 licensed at github.com/bufbuild/registry-proto — and the same surface is exposed
+  to agents as a remote MCP server at https://buf.build/mcp. Used by enterprises including
+  EA, Intel, IBM, OpenAI and Okta. Bufstream, Buf's Kafka-compatible streaming platform, was
+  acquired by CoreWeave in May 2026 and is no longer a Buf product.
 type: Index
 deliveryModel:
   model: open-core
@@ -37,7 +40,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/buf.png
 url: https://raw.githubusercontent.com/api-evangelist/buf/refs/heads/main/apis.yml
 created: '2026-03-25'
-modified: '2026-04-21'
+modified: '2026-09-13'
 specificationVersion: '0.23'
 tags:
   - Code Generation
@@ -67,6 +70,7 @@ apis:
       management, generated SDKs in multiple languages, remote plugins for code
       generation, and a Reflection API for runtime schema discovery.
     humanURL: https://buf.build/product/bsr
+    baseURL: https://buf.build
     tags:
       - Code Generation
       - Protocol Buffers
@@ -81,11 +85,31 @@ apis:
       - type: Documentation
         url: https://buf.build/docs/bsr/
       - type: GettingStarted
-        url: https://buf.build/docs/bsr/introduction/
+        url: https://buf.build/docs/bsr/quickstart/
       - type: Authentication
-        url: https://buf.build/docs/bsr/authentication/
-      - type: Reference
-        url: https://buf.build/docs/reference/
+        url: authentication/buf-authentication.yml
+      - type: APIReference
+        url: https://buf.build/docs/bsr/apis/api-access/
+      - type: Protobuf
+        url: grpc/buf-grpc-index.yml
+      - type: MCPServer
+        url: mcp/buf-mcp.yml
+      - type: ToolCrosswalk
+        url: mcp/buf-tool-crosswalk.yml
+      - type: OAuthScopes
+        url: scopes/buf-scopes.yml
+      - type: Conventions
+        url: conventions/buf-conventions.yml
+      - type: Idempotency
+        url: conventions/buf-conventions.yml
+      - type: ErrorCatalog
+        url: errors/buf-problem-types.yml
+      - type: DataModel
+        url: data-model/buf-data-model.yml
+      - type: RateLimits
+        url: rate-limits/buf-rate-limits.yml
+      - type: Webhooks
+        url: asyncapi/buf-bsr-webhooks.yml
   - aid: buf:buf-cli
     name: Buf CLI
     description: >-
@@ -103,26 +127,13 @@ apis:
       - type: Documentation
         url: https://buf.build/docs/cli/
       - type: GettingStarted
-        url: https://buf.build/docs/tutorials/getting-started-with-buf-cli
+        url: https://buf.build/docs/cli/quickstart/
       - type: GitHubRepository
         url: https://github.com/bufbuild/buf
-  - aid: buf:bufstream
-    name: Bufstream
-    description: >-
-      Bufstream is a Kafka-compatible streaming platform built on Protocol
-      Buffers. It provides schema enforcement, Iceberg integration, and
-      administrative tooling for managing Kafka-compatible streaming workloads
-      with Protobuf as the data format.
-    humanURL: https://buf.build/product/bufstream
-    tags:
-      - Kafka
-      - Protocol Buffers
-      - Streaming
-    properties:
-      - type: Documentation
-        url: https://buf.build/docs/bufstream/
-      - type: GettingStarted
-        url: https://buf.build/docs/bufstream/introduction/
+      - type: CLI
+        url: cli/buf-cli.yml
+      - type: APIReference
+        url: https://buf.build/docs/reference/cli/buf/
 common:
   - type: IssueTracker
     url: https://github.com/bufbuild/buf/issues
@@ -164,6 +175,68 @@ common:
     url: https://buf.build/b/slack
   - type: SchemaRegistry
     url: https://buf.build/registry
+  - type: DeveloperPortal
+    url: https://buf.build/docs
+  - type: APIReference
+    url: https://buf.build/docs/bsr/apis/api-access/
+  - type: GettingStarted
+    url: https://buf.build/docs/bsr/quickstart/
+  - type: Support
+    url: https://buf.build/docs/contact/
+  - type: StatusPage
+    url: https://status.buf.build
+  - type: Lifecycle
+    url: lifecycle/buf-lifecycle.yml
+  - type: Deprecation
+    url: lifecycle/buf-lifecycle.yml
+  - type: ChangeLog
+    url: changelog/buf-changelog.yml
+  - type: Protobuf
+    url: grpc/buf-grpc-index.yml
+  - type: MCPServer
+    url: mcp/buf-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/buf-llms.txt
+  - type: Packages
+    url: packages/buf-packages.yml
+  - type: SDKs
+    url: packages/buf-packages.yml
+  - type: Go SDK
+    url: https://pkg.go.dev/buf.build/gen/go/bufbuild/registry/connectrpc/go
+  - type: CLI
+    url: cli/buf-cli.yml
+  - type: Sandbox
+    url: sandbox/buf-sandbox.yml
+  - type: Conventions
+    url: conventions/buf-conventions.yml
+  - type: Idempotency
+    url: conventions/buf-conventions.yml
+  - type: Authentication
+    url: authentication/buf-authentication.yml
+  - type: OAuthScopes
+    url: scopes/buf-scopes.yml
+  - type: ErrorCatalog
+    url: errors/buf-problem-types.yml
+  - type: DataModel
+    url: data-model/buf-data-model.yml
+  - type: RateLimits
+    url: rate-limits/buf-rate-limits.yml
+  - type: Plans
+    url: plans/buf-plans-pricing.yml
+  - type: Webhooks
+    url: asyncapi/buf-bsr-webhooks.yml
+  - type: Conformance
+    url: conformance/buf-conformance.yml
+  - type: Compliance
+    url: conformance/buf-conformance.yml
+  - type: WellKnown
+    url: well-known/buf-well-known.yml
+  - type: VulnerabilityDisclosure
+    url: security/buf-vulnerability-disclosure.yml
+  - type: Security
+    url: security/buf-vulnerability-disclosure.yml
   - name: Use Cases
     type: UseCases
     data:
@@ -251,3 +324,8 @@ common:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-13'
+  status: enriched
+  artifacts_added: 87
+  pass: local-v3

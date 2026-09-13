@@ -1,0 +1,151 @@
+generated: '2026-09-13'
+method: searched
+source: >-
+  https://buf.build/docs/bsr/apis/api-access/ + https://buf.build/pricing +
+  the provider's own /.well-known discovery documents + grpc/buf/registry/**/*.proto
+summary: >-
+  Buf's compliance posture is unusual: it is largely expressed as CONTRACT, not as prose.
+  The transports, the validation language and the schema format are all published
+  specifications Buf either implements or authors, and the OAuth surface is verifiable by
+  fetching the provider's own discovery documents.
+standards:
+  - id: protobuf
+    name: Protocol Buffers (proto3, editions)
+    conforms: true
+    evidence: >-
+      grpc/buf/registry/**/*.proto — 64 proto3 files, 33 services, 85 RPCs, published
+      Apache-2.0 at github.com/bufbuild/registry-proto. Buf also maintains
+      bufbuild/protobuf-language-spec, a written language specification for Protobuf.
+    role: implementer and toolchain author
+  - id: grpc
+    name: gRPC
+    conforms: true
+    evidence: >-
+      https://buf.build/docs/bsr/apis/api-access/ — "The same RPC services are reachable
+      through three protocols: Connect ... gRPC ... gRPC-Web."
+  - id: grpc-web
+    name: gRPC-Web
+    conforms: true
+    evidence: https://buf.build/docs/bsr/apis/api-access/
+  - id: connect-protocol
+    name: Connect protocol
+    conforms: true
+    evidence: >-
+      Default BSR protocol. Buf founded ConnectRPC, which is now a CNCF project; the error
+      envelope in errors/buf-problem-types.yml is the Connect one.
+    spec: https://connectrpc.com/docs/protocol/
+    role: author
+  - id: protovalidate
+    name: Protovalidate (CEL-based Protobuf validation)
+    conforms: true
+    evidence: >-
+      registry-proto/buf.yaml declares a dependency on buf.build/bufbuild/protovalidate and
+      the request messages carry buf.validate field rules (e.g. uint32.lte = 250 on
+      page_size, string.max_len = 4096 on page_token).
+    role: author
+  - id: cel
+    name: Common Expression Language
+    conforms: true
+    evidence: 'Protovalidate rules are CEL; Buf maintains cel-es and tree-sitter-cel.'
+  - id: oauth2
+    name: 'OAuth 2.0 authorization code + PKCE'
+    conforms: true
+    evidence: 'https://buf.build/.well-known/oauth-authorization-server — grant_types_supported [authorization_code, refresh_token], code_challenge_methods_supported [S256]'
+  - id: rfc8414
+    name: 'RFC 8414 — OAuth 2.0 Authorization Server Metadata'
+    conforms: true
+    evidence: 'https://buf.build/.well-known/oauth-authorization-server returned 200 application/json on 2026-09-13 (saved verbatim in well-known/).'
+  - id: rfc9728
+    name: 'RFC 9728 — OAuth 2.0 Protected Resource Metadata'
+    conforms: true
+    evidence: >-
+      https://buf.build/.well-known/oauth-protected-resource/mcp returned 200, and an
+      anonymous POST to the MCP endpoint returns 401 with
+      WWW-Authenticate: Bearer resource_metadata="..." scope="mcp" — the challenge and the
+      document agree.
+  - id: rfc7591
+    name: 'RFC 7591 — OAuth 2.0 Dynamic Client Registration'
+    conforms: true
+    evidence: 'registration_endpoint https://buf.build/oauth2/register in the authorization-server metadata; Buf documents OpenCode using dynamic client registration against it.'
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    evidence: 'https://buf.build/docs/bsr/apis/mcp/ — remote HTTP MCP server at https://buf.build/mcp. Buf also publishes bufbuild/mcp-proto, a Protobuf-based prototype of the MCP API.'
+  - id: oidc
+    name: OpenID Connect
+    conforms: true
+    evidence: 'https://login.buf.build/.well-known/openid-configuration (200, saved verbatim). Custom SSO with SAML and OIDC is a Pro/Enterprise feature per https://buf.build/pricing.'
+  - id: saml
+    name: 'SAML 2.0 SSO'
+    conforms: true
+    evidence: 'https://buf.build/pricing — "Custom SSO with SAML and OIDC" on Pro and Enterprise.'
+  - id: scim
+    name: 'SCIM — System for Cross-domain Identity Management'
+    conforms: true
+    evidence: 'https://buf.build/pricing — "SCIM server admin and bulk user management" listed as a Pro and Enterprise feature.'
+    caveat: >-
+      The pricing page names SCIM as a product capability. Buf publishes no SCIM schema
+      URNs or /scim/v2 endpoint documentation publicly, so the wire-level conformance was
+      NOT verified — only the vendor claim was.
+  - id: rfc9457
+    name: 'RFC 9457 — Problem Details for HTTP APIs'
+    conforms: false
+    evidence: 'The BSR returns Connect error objects ({"code","message","details"}), not application/problem+json. See errors/buf-problem-types.yml.'
+  - id: openapi
+    name: OpenAPI
+    conforms: false
+    evidence: >-
+      No OpenAPI is published. Probes of /openapi.json, /openapi.yaml, /swagger.json,
+      /v1/openapi.json and /api-docs on buf.build and api.buf.build all missed (SPA shell or
+      404). The machine-readable contract is Protobuf, and it is complete.
+  - id: json-api
+    name: 'JSON:API'
+    conforms: false
+    evidence: 'Not a REST API; no resource-object envelope.'
+  - id: pagination
+    name: token-based pagination
+    conforms: true
+    evidence: '21 list RPCs take page_size (<=250) and page_token (<=4096) and return next_page_token — grpc/buf/registry/**/*_service.proto.'
+  - id: idempotency
+    name: declared idempotency
+    conforms: true
+    evidence: '30 of 34 mutating RPCs declare option idempotency_level = IDEMPOTENT; 51 reads declare NO_SIDE_EFFECTS. See conventions/buf-conventions.yml.'
+domain_standard:
+  market: 'Protobuf schema registry / API schema governance'
+  finding: >-
+    This market's de facto interchange standard is Protocol Buffers itself, and Buf does not
+    merely conform to it — it authors the toolchain, publishes a written language
+    specification (bufbuild/protobuf-language-spec), and ships its own public API as
+    Protobuf modules on its own registry. The nearest COMPETING domain standard is
+    Confluent's Schema Registry protocol, and Buf publishes bufbuild/confluent-proto,
+    "Proto definitions for integrating Confluent Schema Registry with the BSR", plus Kafka
+    serializer/deserializer libraries for Go and Java that resolve schemas from the BSR.
+  signature: 'buf.yaml module declarations (buf.build/bufbuild/registry), buf.validate field options, buf.lock dependency pinning'
+  evidence:
+    - grpc/buf/registry/module/v1/module_service.proto
+    - https://github.com/bufbuild/confluent-proto
+    - https://github.com/bufbuild/bsr-kafka-serde-go
+compliance:
+  published: true
+  certifications:
+    - name: SOC 2
+      status: 'audit report available to customers'
+      availability: 'Pro and Enterprise plans — "Access to SOC 2 Audit and Pen Test Reports"'
+      evidence: https://buf.build/pricing
+      public_report: false
+    - name: Penetration test report
+      status: 'available to customers'
+      availability: Pro and Enterprise
+      evidence: https://buf.build/pricing
+  programs:
+    - name: 'Custom security and data privacy questionnaires'
+      availability: Enterprise
+      evidence: https://buf.build/pricing
+    - name: 'Comprehensive audit logging'
+      availability: Pro and Enterprise
+      evidence: https://buf.build/pricing
+  trust_center: none found — no trust.buf.build (NXDOMAIN) and no /security page (SPA soft-404)
+  note: >-
+    Buf names SOC 2 on its pricing page as a gated deliverable rather than publishing a
+    trust portal. The certification claim is the provider's own, made on its own pricing
+    page; API Evangelist did not see the report.

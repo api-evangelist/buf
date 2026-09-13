@@ -1,0 +1,71 @@
+// Copyright 2023-2025 Buf Technologies, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package buf.registry.module.v1;
+
+import "buf/registry/module/v1/commit.proto";
+import "buf/registry/priv/extension/v1beta1/extension.proto";
+import "buf/validate/validate.proto";
+
+option go_package = "buf.build/gen/go/bufbuild/registry/protocolbuffers/go/buf/registry/module/v1";
+
+// A dependency graph.
+message Graph {
+  option (buf.registry.priv.extension.v1beta1.message).response_only = true;
+
+  // A node in the dependency graph.
+  message Node {
+    // The commit of the node.
+    string commit_id = 1 [
+      (buf.validate.field).required = true,
+      (buf.validate.field).string.tuuid = true
+    ];
+  }
+  // An edge in the dependency graph.
+  message Edge {
+    // The Node of the start of the edge.
+    Node from_node = 1 [(buf.validate.field).required = true];
+    // The Node of the end of the edge.
+    Node to_node = 2 [(buf.validate.field).required = true];
+  }
+  // A registry and Commit ID pair.
+  //
+  // Used when federation is enabled to link a commit ID to another registry.
+  //
+  // Only commits that are *not* the registry that returned this Graph are present.
+  // For example, say buf.example.com/foo/bar depends on buf.build/googleapis/googleapis.
+  // If we made a GetGraph call against buf.example.com, only the registry for buf.build
+  // and the Commit ID for buf.build/googleapis/googleapis will be present.
+  message RegistryCommitID {
+    // The commit ID.
+    string commit_id = 1 [
+      (buf.validate.field).required = true,
+      (buf.validate.field).string.tuuid = true
+    ];
+    // The registry hostname.
+    string registry = 2 [(buf.validate.field).required = true];
+  }
+
+  // The nodes of the graph, each of which are Commits.
+  repeated Commit commits = 1 [(buf.validate.field).repeated.min_items = 1];
+  // The edges of the graph.
+  repeated Edge edges = 2;
+  // The registry/commit ID pairs for registries other than the callee.
+  //
+  // The pairs will be unique by commit ID, that is there will be only one
+  // RegistryCommitID for a given commit ID.
+  repeated RegistryCommitID registry_commit_ids = 3;
+}

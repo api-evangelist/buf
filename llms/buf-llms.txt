@@ -1,0 +1,113 @@
+# Buf
+
+> Buf Technologies builds the modern toolchain for Protocol Buffers: the `buf` CLI, the Buf
+> Schema Registry (BSR), Protovalidate, Protobuf-ES and Protobuf-Py, and the Connect protocol
+> (now a CNCF project). Its own public API is published as Protobuf — 33 services and 85 RPCs
+> served over Connect, gRPC and gRPC-Web at the root of buf.build — and it is also exposed to
+> agents as a remote MCP server. Buf publishes no OpenAPI; the contract is the .proto.
+
+## Calling the API
+
+The BSR mounts every method at the root of the host, a gRPC compatibility requirement:
+
+    https://buf.build/<fully.qualified.ServiceName>/<MethodName>
+
+- Base URL (public BSR): https://buf.build
+- Pro instance: https://<org>.buf.dev — Enterprise: your own domain
+- Protocols: Connect (default, JSON bodies over HTTP/1.1 and HTTP/2), gRPC, gRPC-Web
+- Auth: `Authorization: Bearer <BUF_TOKEN>`. Public modules on buf.build read anonymously.
+- There are no REST paths and no query parameters. Everything travels in the request body.
+
+Example, verbatim from Buf's own docs:
+
+    curl https://buf.build/buf.reflect.v1beta1.FileDescriptorSetService/GetFileDescriptorSet \
+      -H "Authorization: Bearer ${BUF_TOKEN}" \
+      -H "Content-Type: application/json" \
+      -d '{"module": "buf.build/connectrpc/eliza"}'
+
+## MCP
+
+- Endpoint: https://buf.build/mcp (remote, HTTP transport)
+- Auth: browser OAuth2 with dynamic client registration and PKCE S256, scope `mcp`; or a
+  pre-existing BUF_TOKEN in an Authorization header for bots and CI.
+- Exposes the v1 Registry API services for modules, owners, commits and labels as tools.
+- The issued token carries the approving user's full access, including writes.
+- Docs: https://buf.build/docs/bsr/apis/mcp/
+
+## The contract
+
+- buf.build/bufbuild/registry — the public BSR API (github.com/bufbuild/registry-proto, Apache-2.0)
+- buf.build/bufbuild/reflect — FileDescriptorSet retrieval (github.com/bufbuild/reflect-proto)
+- v1 packages are stable and will not break. v1beta1 and alpha packages may.
+- Buf enforces this on itself: registry-proto's buf.yaml runs `buf breaking` with WIRE_JSON in CI.
+
+Core services: ModuleService, CommitService, LabelService, DownloadService, UploadService,
+GraphService, ResourceService, FileDescriptorSetService, OwnerService, UserService,
+OrganizationService, PluginService, PolicyService, CheckService, CollectionService.
+
+## Semantics an agent needs
+
+- Idempotency is declared in the contract, not by a header: 30 of 34 mutating RPCs carry
+  `option idempotency_level = IDEMPOTENT`; 51 reads carry NO_SIDE_EFFECTS. The four
+  `Upload` RPCs declare nothing — reconcile with ListCommits instead of blind-retrying.
+- Writes are plural and atomic: either every element in the batch applies or none does.
+- Pagination: `page_size` (max 250) + `page_token` (max 4096 bytes) in, `next_page_token` out.
+  Ordering defaults to ORDER_CREATE_TIME_DESC.
+- Validation is in the contract as protovalidate/CEL field rules, so a generated client can
+  reject a bad request before sending it.
+- Errors are Connect errors — {"code","message","details"} — NOT RFC 9457 problem+json.
+- Rate limits: 30 req/sec sustained (burst 60) general; code generation 10/hour anonymous vs
+  960/hour authenticated; FileDescriptorSetService 1 req/sec (burst 2). Exhaustion is HTTP 429
+  with `resource_exhausted`, `X-RateLimit-Remaining: 0` and `Retry-After`. Honor Retry-After.
+- Reversals that exist: UnarchiveLabels undoes ArchiveLabels, `buf registry module undeprecate`
+  undoes deprecate. Deletes have NO documented undo and no restore window. Do not promise one.
+
+## Docs
+
+- Documentation: https://buf.build/docs
+- Invoking BSR APIs: https://buf.build/docs/bsr/apis/api-access/
+- Authentication: https://buf.build/docs/bsr/authentication/
+- Rate limits: https://buf.build/docs/bsr/rate-limits/
+- CLI reference: https://buf.build/docs/reference/cli/buf/
+- Generated SDKs: https://buf.build/docs/bsr/generated-sdks/
+- Buf Studio (browser client for live gRPC/Connect APIs): https://buf.build/docs/bsr/studio/
+- Webhooks (alpha, private instances only): https://buf.build/docs/bsr/admin/instance/webhooks/
+- Pricing: https://buf.build/pricing — Community free, Teams $0.50/type/mo, Pro $5/type/mo
+  (min $3,000/mo), Enterprise custom. Uptime SLA 99% Pro / 99.5% Enterprise.
+- Status: https://status.buf.build
+- Blog: https://buf.build/blog
+- GitHub: https://github.com/bufbuild
+- Security disclosures: security@buf.build — Support: support@buf.build
+
+## Packages
+
+- npm: @bufbuild/buf (CLI), @bufbuild/protobuf, @bufbuild/protoc-gen-es, @bufbuild/protovalidate
+- PyPI: protovalidate, protobuf-py
+- Go: github.com/bufbuild/buf, github.com/bufbuild/protovalidate-go
+- Maven: build.buf:protovalidate, build.buf:buf, build.buf:buf-gradle-plugin (all stale — see
+  packages/buf-packages.yml)
+- Homebrew: `brew install bufbuild/buf/buf`
+- Generated SDKs for the BSR API itself: buf.build/gen/go/bufbuild/registry/{protocolbuffers,connectrpc}/go
+
+## Agent skills
+
+- Buf publishes an official Claude Code plugin marketplace at github.com/bufbuild/claude-plugins
+  with a `protobuf` skill (proto design, buf CLI, protovalidate, schema evolution) and a
+  bundled `buf lsp serve` LSP server.
+
+## Not published
+
+- No OpenAPI, no Swagger, no GraphQL endpoint. The machine-readable contract is Protobuf.
+- No /.well-known/security.txt, no api-catalog, no agent-card.json, no ai-plugin.json.
+- No AsyncAPI. The only event surface is the alpha, private-instance-only webhook RPC.
+- Bufstream, Buf's Kafka-compatible streaming platform, was acquired by CoreWeave in May 2026
+  and is no longer a Buf product: https://buf.build/blog/coreweave-acquires-bufstream
+
+---
+generated: 2026-09-13
+method: generated
+source: apis.yml + grpc/ + conventions/ + rate-limits/ + plans/ + packages/ + mcp/ of this repository,
+  all of which were searched or probed from Buf's own surfaces on 2026-09-13.
+note: Buf serves no /llms.txt of its own — buf.build/llms.txt and buf.build/docs/llms.txt were
+  probed 2026-09-13 and returned the SPA shell and a 404 respectively. This file was written by
+  API Evangelist from Buf's published material and is not a provider artifact.

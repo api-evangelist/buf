@@ -1,0 +1,215 @@
+generated: '2026-09-13'
+method: searched
+source: https://buf.build/docs/reference/cli/buf/ (command reference enumerated from https://buf.build/docs/sitemap.xml)
+docs:
+- https://buf.build/docs/cli/
+- https://buf.build/docs/reference/cli/buf/
+name: buf
+description: 'The Buf CLI is the primary client for everything Buf sells: it compiles, lints, formats,
+  breaking-change-checks and generates code from Protobuf, and it is also the authenticated client for
+  the Buf Schema Registry. For most users it, not the HTTP API, IS the API.'
+repository: https://github.com/bufbuild/buf
+license: Apache-2.0
+version: 1.73.0
+version_date: '2026-09-11'
+language: Go
+install:
+- method: homebrew
+  command: brew install bufbuild/buf/buf
+  registry: homebrew/core + bufbuild/homebrew-buf tap
+- method: npm
+  command: npm install @bufbuild/buf
+  package: https://www.npmjs.com/package/@bufbuild/buf
+- method: go
+  command: go install github.com/bufbuild/buf/cmd/buf@latest
+- method: binary
+  command: download from https://github.com/bufbuild/buf/releases
+- method: docker
+  command: docker run bufbuild/buf
+- method: github-action
+  command: bufbuild/buf-setup-action
+  note: plus buf-action, buf-lint-action, buf-breaking-action, buf-push-action
+auth:
+  command: buf registry login
+  env: BUF_TOKEN
+  store: $HOME/.netrc
+  logout: buf registry logout
+command_count: 106
+groups:
+- group: beta
+  commands:
+  - buf beta
+  - buf beta buf-plugin-v1
+  - buf beta buf-plugin-v1beta1
+  - buf beta buf-plugin-v2
+  - buf beta price
+  - buf beta registry
+  - buf beta registry plugin
+  - buf beta registry plugin delete
+  - buf beta registry plugin push
+  - buf beta registry webhook
+  - buf beta registry webhook create
+  - buf beta registry webhook delete
+  - buf beta registry webhook list
+  - buf beta studio-agent
+- group: breaking
+  commands:
+  - buf breaking
+- group: build
+  commands:
+  - buf build
+- group: config
+  commands:
+  - buf config
+  - buf config init
+  - buf config ls-breaking-rules
+  - buf config ls-lint-rules
+  - buf config ls-modules
+  - buf config migrate
+- group: convert
+  commands:
+  - buf convert
+- group: curl
+  commands:
+  - buf curl
+- group: dep
+  commands:
+  - buf dep
+  - buf dep graph
+  - buf dep prune
+  - buf dep update
+- group: export
+  commands:
+  - buf export
+- group: format
+  commands:
+  - buf format
+- group: generate
+  commands:
+  - buf generate
+- group: lint
+  commands:
+  - buf lint
+- group: lsp
+  commands:
+  - buf lsp
+  - buf lsp serve
+- group: plugin
+  commands:
+  - buf plugin
+  - buf plugin prune
+  - buf plugin push
+  - buf plugin update
+- group: push
+  commands:
+  - buf push
+- group: registry
+  commands:
+  - buf registry
+  - buf registry cc
+  - buf registry login
+  - buf registry logout
+  - buf registry module
+  - buf registry module commit
+  - buf registry module commit add-label
+  - buf registry module commit info
+  - buf registry module commit list
+  - buf registry module commit resolve
+  - buf registry module create
+  - buf registry module delete
+  - buf registry module deprecate
+  - buf registry module info
+  - buf registry module label
+  - buf registry module label archive
+  - buf registry module label info
+  - buf registry module label list
+  - buf registry module label unarchive
+  - buf registry module settings
+  - buf registry module settings update
+  - buf registry module undeprecate
+  - buf registry organization
+  - buf registry organization create
+  - buf registry organization delete
+  - buf registry organization info
+  - buf registry organization update
+  - buf registry plugin
+  - buf registry plugin commit
+  - buf registry plugin commit add-label
+  - buf registry plugin commit info
+  - buf registry plugin commit list
+  - buf registry plugin commit resolve
+  - buf registry plugin create
+  - buf registry plugin delete
+  - buf registry plugin info
+  - buf registry plugin label
+  - buf registry plugin label archive
+  - buf registry plugin label info
+  - buf registry plugin label list
+  - buf registry plugin label unarchive
+  - buf registry plugin settings
+  - buf registry plugin settings update
+  - buf registry policy
+  - buf registry policy commit
+  - buf registry policy commit add-label
+  - buf registry policy commit info
+  - buf registry policy commit list
+  - buf registry policy commit resolve
+  - buf registry policy create
+  - buf registry policy delete
+  - buf registry policy info
+  - buf registry policy label
+  - buf registry policy label archive
+  - buf registry policy label info
+  - buf registry policy label list
+  - buf registry policy label unarchive
+  - buf registry policy settings
+  - buf registry policy settings update
+  - buf registry sdk
+  - buf registry sdk info
+  - buf registry sdk version
+  - buf registry whoami
+- group: source
+  commands:
+  - buf source
+  - buf source edit
+  - buf source edit deprecate
+- group: stats
+  commands:
+  - buf stats
+key_flows:
+- flow: lint and format a schema
+  commands:
+  - buf lint
+  - buf format
+- flow: detect breaking changes against a baseline
+  commands:
+  - buf breaking
+- flow: generate code with local or remote plugins
+  commands:
+  - buf generate
+  - buf build
+  - buf export
+- flow: publish a module to the BSR
+  commands:
+  - buf push
+  - buf dep update
+  - buf dep graph
+- flow: call a live gRPC/Connect API from the terminal
+  commands:
+  - buf curl
+- flow: manage registry resources
+  commands:
+  - buf registry module create
+  - buf registry module deprecate
+  - buf registry module commit list
+  - buf registry module label list
+- flow: resolve a generated SDK version
+  commands:
+  - buf registry sdk info
+  - buf registry sdk version
+- flow: editor integration
+  commands:
+  - buf lsp serve
+  note: 'IDE plugins: bufbuild/vscode-buf, bufbuild/intellij-buf, bufbuild/vim-buf'
+note: Command list enumerated from Buf's own published docs sitemap, one page per command; nothing here
+  is inferred. `beta` and `alpha` subtrees are marked as such by Buf and may change.

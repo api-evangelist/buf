@@ -1,0 +1,161 @@
+generated: '2026-09-13'
+method: derived
+source: >-
+  grpc/buf/registry/**/*.proto (verbatim upstream contract) + https://buf.build/docs/bsr/apis/api-access/
+  + https://buf.build/docs/bsr/rate-limits/ + https://buf.build/docs/bsr/authentication/
+docs:
+  - https://buf.build/docs/bsr/apis/api-access/
+  - https://buf.build/docs/bsr/rate-limits/
+summary: >-
+  The BSR is not a REST API and should not be treated as one. Every method is mounted at
+  the root of the host as /<fully.qualified.ServiceName>/<MethodName>, the payload is
+  Protobuf (JSON-encoded under Connect), and the cross-cutting semantics an agent needs —
+  idempotency, pagination, validation, ordering — are declared IN the .proto contract
+  rather than in prose.
+protocol:
+  styles: [Connect, gRPC, gRPC-Web]
+  default: Connect
+  transports: [HTTP/1.1, HTTP/2]
+  content_types: [application/json, application/proto]
+  url_shape: 'https://<bsr-host>/<fully.qualified.ServiceName>/<MethodName>'
+  url_note: >-
+    Methods are mounted at the ROOT URI of the host, a gRPC compatibility requirement.
+    There are no /v1/ path prefixes and no path or query parameters; everything travels in
+    the request body.
+  streaming: >-
+    The BSR exposes unary RPC only in practice — Buf Studio greys out streaming endpoints
+    in its method picker.
+auth:
+  style: bearer token
+  header: 'Authorization: Bearer <BUF_TOKEN>'
+  scoping: 'No per-token scopes. A token carries the full access of its user or bot user.'
+  see: authentication/buf-authentication.yml
+idempotency:
+  coverage: full
+  mechanism: >-
+    Contract-declared, not client-supplied. Every RPC in the BSR contract carries a
+    Protobuf `option idempotency_level`, which is the gRPC/Protobuf-native way of telling a
+    client whether a call may be safely replayed. There is no Idempotency-Key header
+    because the declaration is in the IDL and therefore machine-readable to any generated
+    client before the call is made.
+  declared:
+    NO_SIDE_EFFECTS: 51
+    IDEMPOTENT: 30
+    unset: 4
+  measured_from: 'grep of option idempotency_level across the 64 .proto files in grpc/'
+  mutating_surface: 34 RPCs
+  mutating_declared_idempotent: 30
+  exceptions:
+    - 'buf.registry.module.v1.UploadService/Upload'
+    - 'buf.registry.module.v1beta1.UploadService/Upload'
+    - 'buf.registry.plugin.v1beta1.UploadService/Upload'
+    - 'buf.registry.policy.v1beta1.UploadService/Upload'
+  exception_note: >-
+    The four Upload RPCs declare no idempotency level, so a client must treat an
+    interrupted upload as unknown and reconcile with ListCommits before retrying. Every
+    other write — Create*, Update*, Delete*, CreateOrUpdateLabels, Archive/Unarchive — is
+    declared IDEMPOTENT.
+  atomicity: >-
+    Writes are plural and atomic by design ("Either all Modules are created or an error is
+    returned"), so a partial apply is not a state an agent has to reason about.
+  key_header: null
+  retention: n/a
+reversibility:
+  grade: documented
+  grade_reason: >-
+    Real reversal operations exist and are named in the contract, but Buf publishes no
+    window for any of them, so this cannot be graded `verified`. NOTHING here asserts a
+    time limit, because Buf states none.
+  write_surfaces:
+    - action: buf.registry.module.v1.LabelService/ArchiveLabels
+      reversal: buf.registry.module.v1.LabelService/UnarchiveLabels
+      window: not stated by the provider
+      note: 'Archiving the default Label is an error, so the default label cannot be lost this way.'
+      evidence: grpc/buf/registry/module/v1/label_service.proto
+    - action: 'buf registry module deprecate'
+      reversal: 'buf registry module undeprecate'
+      window: not stated by the provider
+      evidence: https://buf.build/docs/reference/cli/buf/registry/module/undeprecate/
+    - action: buf.registry.module.v1.ModuleService/UpdateModules
+      reversal: >-
+        None directly, but module state is commit-addressed: an earlier commit remains
+        retrievable via CommitService/ListCommits and a label can be repointed with
+        CreateOrUpdateLabels.
+      window: not stated by the provider
+    - action: buf.registry.module.v1.ModuleService/DeleteModules
+      reversal: none documented
+      window: not stated by the provider
+      note: >-
+        No restore, undelete or retention window is published for module, organization or
+        user deletion. Treat Delete* as terminal. An agent must confirm with a human before
+        calling it.
+    - action: buf.registry.owner.v1.OrganizationService/DeleteOrganizations
+      reversal: none documented
+      window: not stated by the provider
+    - action: buf.registry.owner.v1.UserService/DeleteUsers
+      reversal: none documented
+      window: not stated by the provider
+    - action: buf.registry.module.v1.UploadService/Upload
+      reversal: >-
+        None. An upload creates a new commit; commits are immutable and are not deleted.
+        The practical undo is to move the label back to the previous commit.
+      window: not stated by the provider
+dry_run_mode:
+  available: partial
+  note: >-
+    Not on the API. The CLI provides the equivalent locally — `buf lint`, `buf breaking`
+    and `buf build` evaluate a schema against the registry without writing to it, which is
+    how a change is rehearsed before `buf push`.
+pagination:
+  style: token
+  request_fields:
+    page_size: 'uint32, max 250 (protovalidate: uint32.lte = 250)'
+    page_token: 'string, max 4096 bytes'
+  response_fields:
+    next_page_token: 'string, max 4096 bytes; empty when the last page has been returned'
+  ordering: >-
+    Most list requests carry an `order` enum with ORDER_CREATE_TIME_DESC (the default) and
+    ORDER_CREATE_TIME_ASC.
+  list_rpcs: 21
+  measured_from: 'grpc/buf/registry/**/*_service.proto'
+field_expansion:
+  supported: false
+  note: >-
+    No sparse-fieldset or expand parameter. Shape is fixed by the response message. Several
+    Get*/List* requests do carry enums that select a representation instead — e.g. a
+    DigestType, or whether to return files in addition to metadata.
+validation:
+  mechanism: protovalidate
+  note: >-
+    Request constraints are declared in the contract as buf.validate field options
+    (min_items, max_len, lte, and CEL expressions), so a generated client can reject an
+    invalid request before it is sent. Server-side violations surface as the Connect code
+    invalid_argument.
+  spec: https://buf.build/bufbuild/protovalidate
+metadata:
+  custom_fields: false
+  note: 'No user-defined metadata bag on BSR resources.'
+request_tracing:
+  request_id_header: none documented
+  note: 'Buf documents no request-id or correlation header for the BSR.'
+versioning:
+  style: package-versioned Protobuf
+  packages: [buf.registry.*.v1, buf.registry.*.v1beta1, buf.reflect.v1beta1]
+  policy: >-
+    "APIs that are v1 are stable and will not change in backward incompatible ways. They
+    are safe for any client to depend on in production. APIs that are alpha or beta may
+    change in backward incompatible ways, so they are unsafe to depend on in production."
+  source: https://github.com/bufbuild/registry-proto
+  breaking_change_enforcement: >-
+    registry-proto's own buf.yaml enables breaking:use:[WIRE_JSON] and lint:use:[STANDARD,
+    UNARY_RPC] with disallow_comment_ignores:true — Buf enforces its own compatibility
+    rules against its own public API in CI.
+  see: lifecycle/buf-lifecycle.yml
+errors:
+  envelope: connect-error
+  see: errors/buf-problem-types.yml
+rate_limit_signaling:
+  headers: [X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After]
+  exhaustion_status: 429
+  exhaustion_code: resource_exhausted
+  see: rate-limits/buf-rate-limits.yml

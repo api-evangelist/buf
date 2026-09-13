@@ -1,0 +1,1 @@
+{"resource":"https://buf.build/mcp","authorization_servers":["https://buf.build"],"scopes_supported":["mcp"],"bearer_methods_supported":["header"]}

@@ -64,7 +64,7 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Buf is a modern developer platform for Protocol Buffers and gRPC, providing a CLI toolchain, schema registry (BSR), and streaming infrastructure (Bufstream). It replaces traditional protoc-based workflows with linting, breaking change detection, code generation, remote plugins, and centralized schema distribution. Used by enterprises including EA, Intel, IBM, OpenAI, and Okta.
+Buf Technologies builds the modern toolchain for Protocol Buffers and gRPC: the `buf` CLI, the Buf Schema Registry (BSR), Protovalidate, Protobuf-ES and Protobuf-Py, and the Connect protocol (now a CNCF project). It replaces traditional protoc-based workflows with linting, breaking change detection, code generation, remote plugins, policy checks, and centralized schema distribution. Buf's own public API is published as Protobuf rather than OpenAPI — 33 services and 85 RPCs over Connect, gRPC and gRPC-Web at the root of buf.build — and the same surface is exposed to agents as a remote MCP server at https://buf.build/mcp. Used by enterprises including EA, Intel, IBM, OpenAI, and Okta. Bufstream, Buf's Kafka-compatible streaming platform, was [acquired by CoreWeave](https://buf.build/blog/coreweave-acquires-bufstream) in May 2026 and is no longer a Buf product.
 
 **URL:** [https://buf.build](https://buf.build)
 
@@ -75,13 +75,12 @@ Buf is a modern developer platform for Protocol Buffers and gRPC, providing a CL
 ## Timestamps
 
 - **Created:** 2026-03-25
-- **Modified:** 2026-04-21
+- **Modified:** 2026-09-13
 
 ## APIs
 
 - [Buf Schema Registry (BSR)](https://buf.build/product/bsr) - Centralized Protobuf schema management with generated SDKs and Reflection API.
 - [Buf CLI](https://buf.build/product/cli) - Local toolchain for linting, breaking change detection, and code generation.
-- [Bufstream](https://buf.build/product/bufstream) - Kafka-compatible streaming platform built on Protocol Buffers.
 
 ## Common Properties
 
