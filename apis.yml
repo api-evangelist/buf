@@ -44,7 +44,6 @@ modified: '2026-09-13'
 specificationVersion: '0.23'
 tags:
   - Code Generation
-  - Developer Tools
   - gRPC
   - Kafka
   - Open-Source
