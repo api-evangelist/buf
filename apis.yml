@@ -46,7 +46,7 @@ tags:
   - Code Generation
   - gRPC
   - Kafka
-  - Open-Source
+  - Open Source
   - Protocol Buffers
   - Schema Registry
   - SDK
@@ -60,6 +60,7 @@ tags_raw:
   - Schema Registry
   - SDKs
   - Streaming
+  - Open-Source
 apis:
   - aid: buf:buf-schema-registry
     name: Buf Schema Registry (BSR)
@@ -69,7 +70,6 @@ apis:
       management, generated SDKs in multiple languages, remote plugins for code
       generation, and a Reflection API for runtime schema discovery.
     humanURL: https://buf.build/product/bsr
-    baseURL: https://buf.build
     tags:
       - Code Generation
       - Protocol Buffers
