@@ -126,3 +126,40 @@ note: >-
   quote. Rate limits are NOT a plan attribute on the public BSR — Buf applies them to all
   traffic regardless of plan and removes them only on dedicated Pro/Enterprise instances.
   See rate-limits/buf-rate-limits.yml.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - metered
+  - negotiated
+  units: []
+  plans:
+  - name: Community
+    access: free
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Teams
+    access: other
+    model: metered
+    model_how: stated
+    units: []
+    periods:
+    - month
+  - name: Pro
+    access: other
+    model: metered
+    model_how: stated
+    units: []
+    periods:
+    - month
+  - name: Enterprise
+    access: negotiated
+    model: negotiated
+    model_how: stated
+    units: []
+    periods:
+    - month
