@@ -134,6 +134,8 @@ apis:
       - type: APIReference
         url: https://buf.build/docs/reference/cli/buf/
 common:
+  - type: FinOps
+    url: finops/buf-finops.yml
   - type: IssueTracker
     url: https://github.com/bufbuild/buf/issues
   - type: Releases
