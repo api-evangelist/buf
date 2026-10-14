@@ -2,6 +2,9 @@ generated: '2026-10-13'
 method: searched
 checked:
 - https://aws.amazon.com/marketplace/
+- https://github.com/marketplace?type=actions
+- https://marketplace.visualstudio.com/vscode
+- https://plugins.jetbrains.com/
 marketplace_apps: []
 edges:
 - partner_name: AWS Marketplace
@@ -19,3 +22,63 @@ edges:
   seller_name: Buf
   detected_by: sweep-cloud-marketplaces.py
   detected: '2026-10-13'
+- partner_name: GitHub Marketplace (actions)
+  partner: github-actions
+  partner_match: aggregator
+  type: marketplace
+  marketplace: github-actions
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://github.com/marketplace/actions/buf-action
+  listing_count: 5
+  apps:
+  - Buf Action
+  - buf-setup
+  - buf-breaking
+  - buf-lint
+  - buf-push
+  publisher_name: Buf
+  badges:
+  - Verified creator
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
+- partner_name: JetBrains Marketplace
+  partner: jetbrains
+  partner_match: aggregator
+  type: marketplace
+  marketplace: jetbrains
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://plugins.jetbrains.com/vendor/Buf
+  listing_count: 1
+  apps:
+  - Buf for Protocol Buffers
+  publisher_name: Buf
+  badges:
+  - Verified vendor
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
+- partner_name: Visual Studio Code Marketplace
+  partner: vs-code-marketplace
+  partner_match: aggregator
+  type: marketplace
+  marketplace: vscode
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://marketplace.visualstudio.com/publishers/bufbuild
+  listing_count: 1
+  apps:
+  - Buf
+  publisher_name: Buf
+  badges:
+  - Verified publisher
+  - Verified domain
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
+source:
+- https://github.com/marketplace?type=actions
+- https://marketplace.visualstudio.com/vscode
+- https://plugins.jetbrains.com/
