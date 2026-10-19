@@ -84,3 +84,109 @@
     detected: '2026-10-15'
   status: not-a-workflow
   arazzo: null
+- slug: buf-go-module-proxy
+  label: Go module proxy
+  partner_name: Go module proxy
+  category: official SDK (Go)
+  type: register
+  channel: package-registry
+  evidence: https://pkg.go.dev/github.com/bufbuild/buf
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: Go module proxy (public registry JSON)
+    spec_file: null
+    language: Go
+    packages:
+    - name: github.com/bufbuild/buf
+      version: v1.74.0
+      released: '2026-10-14'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/github.com/bufbuild/buf
+      repo_leg: github-org:bufbuild
+      publisher_leg: org:bufbuild
+      matched_by: github-org
+    - name: github.com/bufbuild/protovalidate-go
+      version: v1.4.0
+      released: '2026-08-31'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/github.com/bufbuild/protovalidate-go
+      repo_leg: github-org:bufbuild
+      publisher_leg: org:bufbuild
+      matched_by: github-org
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: buf-npm-registry
+  label: npm registry
+  partner: npm
+  partner_name: npm registry
+  category: official SDK (JavaScript/TypeScript)
+  type: register
+  channel: package-registry
+  evidence: https://www.npmjs.com/package/@bufbuild/buf
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@bufbuild/buf'
+      version: 1.74.0
+      released: '2026-10-15'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bufbuild/buf
+      repo_leg: github-org:bufbuild
+      publisher_leg: email:buf.build
+      matched_by: domain
+    - name: '@bufbuild/protobuf'
+      version: 2.16.0
+      released: '2026-09-29'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bufbuild/protobuf
+      repo_leg: github-org:bufbuild
+      publisher_leg: email:buf.build
+      matched_by: domain
+    - name: '@bufbuild/protoc-gen-es'
+      version: 2.16.0
+      released: '2026-09-29'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bufbuild/protoc-gen-es
+      repo_leg: github-org:bufbuild
+      publisher_leg: email:buf.build
+      matched_by: domain
+    - name: '@bufbuild/protoplugin'
+      version: 2.16.0
+      released: '2026-09-29'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bufbuild/protoplugin
+      repo_leg: github-org:bufbuild
+      publisher_leg: email:buf.build
+      matched_by: domain
+    - name: '@bufbuild/protovalidate'
+      version: 1.3.0
+      released: '2026-09-16'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bufbuild/protovalidate
+      repo_leg: github-org:bufbuild
+      publisher_leg: email:buf.build
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
