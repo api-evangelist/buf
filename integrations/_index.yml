@@ -190,3 +190,75 @@
     detected: '2026-10-19'
   status: not-a-workflow
   arazzo: null
+- slug: buf-winget-windows-package-manager
+  label: winget (Windows Package Manager)
+  partner_name: winget (Windows Package Manager)
+  category: official CLI (winget (Windows Package Manager))
+  type: register
+  channel: package-registry
+  evidence: https://github.com/microsoft/winget-pkgs/tree/master/manifests/b/bufbuild/buf
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: winget (Windows Package Manager) (public package index)
+    spec_file: null
+    packages:
+    - name: bufbuild.buf
+      kind: manifest
+      version: 1.74.0
+      released: '2026-10-14'
+      lapsed: false
+      page: https://github.com/microsoft/winget-pkgs/tree/master/manifests/b/bufbuild/buf
+      cli: 'winget: The best way to work with Protocol Buffers'
+      repo_leg: domain:buf.build
+      publisher_leg: artifact-github-org:bufbuild
+      matched_by: domain
+    current: true
+    signal_note: 'the provider''s own command-line tool on a package manager: distribution, not an integration;
+      lapsed = no release in 24 months or deprecated / disabled by the manager'
+    detected_by: sweep-official-clis.py
+    detected: '2026-10-20'
+  status: not-a-workflow
+  arazzo: null
+- slug: buf-agent-skills-own-github-org
+  label: Agent Skills (own GitHub org)
+  partner_name: Agent Skills (own GitHub org)
+  category: Agent Skills package
+  type: register
+  channel: provider-built
+  evidence: https://github.com/bufbuild/claude-plugins
+  source: edge
+  relationship: compatible
+  contract_reference:
+    register: 'provider''s own GitHub org (GitHub REST API: repo + git tree holds SKILL.md)'
+    spec_file: null
+    standard: Agent Skills (agentskills.io)
+    role: agent-skills-repo
+    matched_org: bufbuild
+    matched_by: org-profile-domain:buf.build
+    detected_by: sweep-agent-skills.py
+    detected: '2026-10-20'
+  status: not-a-workflow
+  arazzo: null
+- slug: buf-skills-sh
+  label: skills.sh
+  partner_name: skills.sh
+  category: Agent Skills register
+  type: register
+  channel: standard-directory
+  evidence: https://www.skills.sh/bufbuild/claude-plugins
+  source: edge
+  relationship: compatible
+  contract_reference:
+    register: skills.sh (public sitemap / list)
+    spec_file: null
+    standard: Agent Skills (agentskills.io)
+    role: agent-skills-listing
+    matched_org: bufbuild
+    matched_by: org-profile-domain:buf.build
+    sample_skills:
+    - protobuf
+    detected_by: sweep-agent-skills.py
+    detected: '2026-10-20'
+  status: not-a-workflow
+  arazzo: null
