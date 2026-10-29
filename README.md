@@ -64,42 +64,134 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Buf Technologies builds the modern toolchain for Protocol Buffers and gRPC: the `buf` CLI, the Buf Schema Registry (BSR), Protovalidate, Protobuf-ES and Protobuf-Py, and the Connect protocol (now a CNCF project). It replaces traditional protoc-based workflows with linting, breaking change detection, code generation, remote plugins, policy checks, and centralized schema distribution. Buf's own public API is published as Protobuf rather than OpenAPI — 33 services and 85 RPCs over Connect, gRPC and gRPC-Web at the root of buf.build — and the same surface is exposed to agents as a remote MCP server at https://buf.build/mcp. Used by enterprises including EA, Intel, IBM, OpenAI, and Okta. Bufstream, Buf's Kafka-compatible streaming platform, was [acquired by CoreWeave](https://buf.build/blog/coreweave-acquires-bufstream) in May 2026 and is no longer a Buf product.
+Buf Technologies builds the modern toolchain for Protocol Buffers and gRPC: the buf CLI, the Buf Schema Registry (BSR), Protovalidate, Protobuf-ES and Protobuf-Py, and the Connect protocol, which is now a CNCF project. It replaces protoc-based workflows with linting, breaking-change detection, code generation, remote plugins, policy checks and centralized schema distribution. Buf's own public API is published as Protobuf rather than OpenAPI — 33 services and 85 RPCs served over Connect, gRPC and gRPC-Web at the root of buf.build, Apache-2.0 licensed at github.com/bufbuild/registry-proto — and the same surface is exposed to agents as a remote MCP server at https://buf.build/mcp. Used by enterprises including EA, Intel, IBM, OpenAI and Okta. Bufstream, Buf's Kafka-compatible streaming platform, was acquired by CoreWeave in May 2026 and is no longer a Buf product.
 
-**URL:** [https://buf.build](https://buf.build)
+**Areas:** Code Generation · gRPC · Kafka · Open Source · Protocol Buffers · Schema Registry · SDK · Streaming
 
-## Tags
+## Buf on APIs.io
 
-- Code Generation, gRPC, Kafka, Open Source, Protocol Buffers, Schema Registry, SDKs, Streaming
+Everything profiled for Buf is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/buf/](https://apis.io/providers/buf/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (2)
 
-- **Created:** 2026-03-25
-- **Modified:** 2026-09-13
+- [Buf Schema Registry (BSR)](https://apis.io/apis/buf/buf-schema-registry/) — The Buf Schema Registry (BSR) is a centralized repository for managing, distributing, and documenting Protobuf schemas. It provides dependency management,…
+- [Buf CLI](https://apis.io/apis/buf/buf-cli/) — The Buf CLI is a local Protobuf development toolchain providing linting, breaking change detection, code generation, formatting, dependency management, and…
 
-## APIs
+### Published properties
 
-- [Buf Schema Registry (BSR)](https://buf.build/product/bsr) - Centralized Protobuf schema management with generated SDKs and Reflection API.
-- [Buf CLI](https://buf.build/product/cli) - Local toolchain for linting, breaking change detection, and code generation.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Common Properties
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Buf Bsr Webhooks](https://apis.io/asyncapis/buf/buf-bsr-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [bsr](https://apis.io/servers/buf/bsr/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Buf Authentication](https://apis.io/security/buf/buf-authentication/)
+- [Buf Domain Security](https://apis.io/security/buf/buf-domain-security/)
+- [Buf Vulnerability Disclosure](https://apis.io/security/buf/buf-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Buf Scopes](https://apis.io/scopes/buf/buf-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Buf Plans Pricing](https://apis.io/plans/buf/buf-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Buf Rate Limits](https://apis.io/rate-limits/buf/buf-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Buf Finops](https://apis.io/finops/buf/buf-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://buf.build)
 - [Documentation](https://buf.build/docs)
-- [GitHub Organization](https://github.com/bufbuild)
-- [GitHub Repository](https://github.com/bufbuild/buf)
-- [Blog](https://buf.build/blog)
+- [Getting started](https://buf.build/docs/bsr/quickstart/)
+- [API reference](https://buf.build/docs/bsr/apis/api-access/)
 - [Pricing](https://buf.build/pricing)
-- [Sign Up](https://buf.build/signup)
-- [Login](https://buf.build/login)
-- [Contact](https://buf.build/contact)
-- [Terms of Service](https://buf.build/legal/terms-of-use)
-- [Privacy Policy](https://buf.build/legal/privacy-policy)
-- [Community (Slack)](https://buf.build/b/slack)
-- [Schema Registry](https://buf.build/registry)
+- [Support](https://buf.build/docs/contact/)
+- [Blog](https://buf.build/blog)
+- [Terms of service](https://buf.build/legal/terms-of-use)
+- [Privacy policy](https://buf.build/legal/privacy-policy)
+- [GitHub](https://github.com/bufbuild)
+- [Status](https://status.buf.build)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
+**Kin Score 63.9** — strong · rubric 0.25.0 · scored 2026-10-23
 
-**Email:** kin@apievangelist.com
+| Facet | Score |
+|---|---|
+| Discoverability | 66.7 |
+| Contract quality | 39.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 92.1 |
+| Developer ergonomics | 85.7 |
+| Access clarity | 77.6 |
+
+**Agent readiness 49.2** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | derived (partial credit) |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/buf/](https://apis.io/providers/buf/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Buf: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/buf/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
