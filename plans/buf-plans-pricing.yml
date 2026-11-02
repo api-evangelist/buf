@@ -1,0 +1,89 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://buf.build/pricing
+sources:
+- https://buf.build/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T141238
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: usage-other
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-10-28'
+  evidence: Self hosted, on-prem deployments available
+  managed_tier: Teams
+published: true
+note: Billing based on average number of Protobuf types (messages, enums, RPCs) over billing cycle; on-prem
+  deployments available on Enterprise.
+plan_count: 4
+currency: USD
+plans:
+- name: Community
+  price_text: Free
+  period: none
+  included_quota: One private repository, Unlimited public repositories, Community Slack channel support
+- name: Teams
+  price_text: 0.50 per type / month
+  price: 0.5
+  currency: USD
+  period: month
+  unit: per type
+  included_quota: Everything in Community, plus unlimited private repositories, email support within 48
+    business hours
+- name: Pro
+  price_text: 5 per type / month*
+  price: 5
+  currency: USD
+  period: month
+  unit: per type
+  included_quota: Everything in Teams, plus private BSR instance, unlimited organizations, hosted custom
+    plugins, custom SSO
+  overage: '*Minimum spend of $3000/month'
+- name: Enterprise
+  price_text: Contact sales
+  period: none
+  included_quota: Everything in Pro, plus full data isolation, self hosted/on-prem deployments available
+rate_limit_statements:
+- Community plan users and organizations may have 1 private repo with up to 100 types.
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - subscription
+  units: []
+  plans:
+  - name: Community
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
+  - name: Teams
+    access: other
+    model: subscription
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Pro
+    access: other
+    model: hybrid
+    model_how: derived
+    units:
+    - other
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
