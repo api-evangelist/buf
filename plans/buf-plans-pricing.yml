@@ -50,7 +50,7 @@ plans:
 rate_limit_statements:
 - Community plan users and organizations may have 1 private repo with up to 100 types.
 x-canonical:
-  generated: '2026-11-02'
+  generated: '2026-11-06'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - hybrid
