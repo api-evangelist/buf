@@ -20,8 +20,14 @@ artifacts:
   conventions/buf-conventions.yml:
     method: derived
     evidence: declared in the artifact
+  data-license/buf-data-license.yml:
+    method: harvested
+    evidence: declared in the artifact
   data-model/buf-data-model.yml:
     method: derived
+    evidence: declared in the artifact
+  eligibility/buf-eligibility.yml:
+    method: harvested
     evidence: declared in the artifact
   errors/buf-problem-types.yml:
     method: searched
@@ -41,6 +47,9 @@ artifacts:
   heartbeat/2026-11-06.yml:
     method: unknown
     evidence: no authorship recorded
+  heartbeat/2026-11-13.yml:
+    method: unknown
+    evidence: no authorship recorded
   integrations/_index.yml:
     method: generated
     evidence: carries an API Evangelist house phrase
@@ -50,7 +59,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -116,6 +125,9 @@ artifacts:
   kin/score-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/buf-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -133,6 +145,9 @@ artifacts:
     evidence: declared in the artifact
   plans/buf-plans-pricing.yml:
     method: searched
+    evidence: declared in the artifact
+  privacy/buf-privacy-policy.yml:
+    method: harvested
     evidence: declared in the artifact
   rate-limits/buf-rate-limits.yml:
     method: searched
@@ -158,6 +173,9 @@ artifacts:
   skills/buf-protobuf.md:
     method: unknown
     evidence: no authorship recorded
+  terms/buf-terms-of-service.yml:
+    method: harvested
+    evidence: declared in the artifact
   well-known/buf-login-openid-configuration.json:
     method: unknown
     evidence: no authorship recorded
